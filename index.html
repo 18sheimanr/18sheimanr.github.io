@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Robert Sheiman - Software Engineer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    /* RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(120deg, #f4f8fd, #ffffff 60%);
+      color: #2c3e50;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 900px;
+      width: 95%;
+      margin: 3rem auto;
+      padding: 3rem 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+    }
+
+    /* HEADER STYLES */
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    h1 span {
+      color: #6078ea;
+    }
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 2rem 0;
+      color: #2c3e50;
+    }
+    p {
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    /* TIMELINE WRAPPER */
+    .timeline {
+      position: relative;
+      margin: 2.5rem 0;
+    }
+    /* Vertical line in the center */
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: #ccdce8;
+      transform: translateX(-50%);
+    }
+
+    /* TIMELINE ROWS */
+    /* Each project is in its own “row.” Odd rows go left, even go right. */
+    .timeline-row {
+      position: relative;
+      width: 100%;
+      margin: 2rem 0;
+      display: flex;
+      justify-content: flex-start; /* default for odd; overridden for even */
+    }
+    .timeline-row.even {
+      justify-content: flex-end;
+    }
+
+    /* TIMELINE CONTENT CARD */
+    .timeline-content {
+      position: relative;
+      width: 45%;
+      background: #fafafa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: left;
+    }
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    /* TIMELINE ITEM HEADING & TEXT */
+    .timeline-content h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    .timeline-content p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* THE CIRCLE MARKER */
+    /* The small circle on each row, anchored at the center line */
+    .timeline-row::after {
+      content: "";
+      position: absolute;
+      top: 2rem; /* Adjust to center with content block */
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 3px solid #6078ea;
+      background: #fff;
+      z-index: 1;
+    }
+    /* For odd rows (left side), place the circle on the center line. */
+    .timeline-row:not(.even)::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    /* For even rows (right side), also center on the line. */
+    .timeline-row.even::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* MEDIA QUERIES: MAKE IT NICE ON MOBILE */
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 5px;  /* shift the line to the left */
+      }
+      .timeline-row,
+      .timeline-row.even {
+        justify-content: flex-start !important;
+      }
+      .timeline-content {
+        width: 90%;
+        margin-left: 2rem;
+      }
+      .timeline-row::after {
+        left: 5px !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Robert <span>Sheiman</span></h1>
+    <p style="margin-bottom: 2rem;">24 y/o Software Engineer, B.S. Chemical Engineering</p>
+
+    <div class="timeline">
+      <!-- ROW 1: Left side (odd) -->
+      <div class="timeline-row">
+        <div class="timeline-content">
+          <h3>2016</h3>
+          <p>Learned Java to mod Minecraft, and JS to make custom games. Early code archived <a href="https://github.com/18sheimanr/personal-archive">here</a>.</p>
+        </div>
+      </div>
+
+      <!-- ROW 2: Right side (even) -->
+      <div class="timeline-row even">
+        <div class="timeline-content">
+          <h3>2018</h3>
+          <p>Interned at Virgin Pulse, where I became an early user of Weights & Biases, providing feedback to their platform <a href="https://github.com/18sheimanr/ASL_digits/blob/master/ASL_digits.py">(example)</a>. Used learned iOS skills to create <a href="https://github.com/18sheimanr/PosterBoyAR">PosterBoy AR</a>.</p>
+        </div>
+      </div>
+
+      <!-- ROW 3: Left side (odd) -->
+      <div class="timeline-row">
+        <div class="timeline-content">
+          <h3>2022</h3>
+          <p>After researching <a href="https://docs.google.com/presentation/d/e/2PACX-1vQoK3oF87zr17uSai40esrdHPrkThOX7cssbsJswGPYdBNUegoPgSyZZk7NKjKYzAhtZZ_vEKAjQKqA/pub?start=false&loop=false&delayms=3000&slide=id.g23132e49eac_11_0">PEM fuel cells</a> and <a href="https://docs.google.com/presentation/d/e/2PACX-1vS7JQzcZr-5yALUUb4mz6eH__9obeSZ8MMtPoDsIEO0jd5v1czBzUaqphAXKIoK1Q/pub?start=false&loop=false&delayms=3000&slide=id.p1">plastics manufacturing</a> at the University of Rochester, I joined Nordstrom to help implement Apple Pay, a new Gift Cards API, and disaster recovery tools.</p>
+        </div>
+      </div>
+
+      <!-- ROW 4: Right side (even) -->
+      <div class="timeline-row even">
+        <div class="timeline-content">
+           <h3>2023</h3>
+          <p>Brought my skills to Pager Health to bring SRE best practices and LLMs to their bots/AI service. Launched multilingual medical summarizations with <b>90+ NPS</b> and bugs are down <b>90%</b>.</p>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-content">
+           <h3>2024</h3>
+          <p>Launched <a href="https://www.tracktap.app">tracktap.app</a> and began building LLM-suggested nurse messages for Pager Health agents.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
