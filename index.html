@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Robert Sheiman - Software Engineer</title>
+  <!-- Viewport meta for responsive mobile scaling -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +27,48 @@
       color: #2c3e50;
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* so background shapes can be visible on sides */
       justify-content: center;
+      overflow-x: hidden; /* prevent accidental horizontal scroll */
+      position: relative;
+    }
+
+    /* BACKGROUND SHAPES WRAPPER */
+    .bg-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0; /* behind container */
+    }
+    .bg-circle {
+      position: absolute;
+      top: 50%;
+      left: -150px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      background: radial-gradient(circle, #6078ea 0%, #9f46ff 85%);
+      opacity: 0.6;
+    }
+    .bg-shape {
+      position: absolute;
+      top: 50%;
+      right: -150px;
+      width: 350px;
+      height: 350px;
+      transform: translateY(-50%) rotate(45deg);
+      background: conic-gradient(from 180deg at 50% 50%, #fcb045, #fd1d1d, #833ab4, #fcb045);
+      border-radius: 20%;
+      opacity: 0.5;
     }
 
     .container {
+      position: relative;
+      z-index: 1; /* on top of background shapes */
       background: #fff;
       border-radius: 12px;
       max-width: 900px;
@@ -38,7 +77,6 @@
       padding: 3rem 2rem;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       text-align: center;
-      position: relative;
     }
 
     /* HEADER STYLES */
@@ -47,15 +85,14 @@
       font-weight: 700;
       margin-bottom: 0.3rem;
     }
-    h1 span {
+    /* We'll apply the animation to .name-anim for fine control */
+    .name-anim {
+      display: inline-block; /* so 3D transform is isolated */
+    }
+    .name-anim span {
       color: #6078ea;
     }
-    h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin: 2rem 0;
-      color: #2c3e50;
-    }
+
     p {
       margin-bottom: 0.5rem;
       line-height: 1.6;
@@ -79,7 +116,6 @@
     }
 
     /* TIMELINE ROWS */
-    /* Each project is in its own “row.” Odd rows go left, even go right. */
     .timeline-row {
       position: relative;
       width: 100%;
@@ -121,7 +157,6 @@
     }
 
     /* THE CIRCLE MARKER */
-    /* The small circle on each row, anchored at the center line */
     .timeline-row::after {
       content: "";
       position: absolute;
@@ -133,32 +168,37 @@
       background: #fff;
       z-index: 1;
     }
-    /* For odd rows (left side), place the circle on the center line. */
     .timeline-row:not(.even)::after {
       left: 50%;
       transform: translateX(-50%);
     }
-    /* For even rows (right side), also center on the line. */
     .timeline-row.even::after {
       left: 50%;
       transform: translateX(-50%);
     }
 
-    /* MEDIA QUERIES: MAKE IT NICE ON MOBILE */
+    /* MEDIA QUERIES */
     @media (max-width: 768px) {
+      /* Make sure the container is somewhat translucent on mobile */
+      .container {
+        background: rgba(255,255,255,0.85);
+      }
+      /* Give the timeline line some space on mobile */
       .timeline::before {
-        left: 5px;  /* shift the line to the left */
+        left: 5px;
       }
       .timeline-row,
       .timeline-row.even {
         justify-content: flex-start !important;
       }
+      /* Make the timeline content fill more of the width,
+         centered in the container. */
       .timeline-content {
         width: 90%;
-        margin-left: 2rem;
+        margin: 1rem auto; /* so it’s centered, not flush left */
       }
       .timeline-row::after {
-        left: 5px !important;
+        left: 15px !important;
       }
     }
 
@@ -166,60 +206,119 @@
 </head>
 <body>
 
+  <!-- Background shapes -->
+  <div class="bg-shapes">
+    <div class="bg-circle"></div>
+    <div class="bg-shape"></div>
+  </div>
+
   <div class="container">
-    <h1>Robert <span>Sheiman</span></h1>
+    <h1 class="name-anim">Robert <span>Sheiman</span></h1>
     <p>sheiman.robert.18@gmail.com</p>
     <p style="margin-bottom: 2rem;">24 y/o Software Engineer, B.S. Chemical Engineering</p>
 
     <div class="timeline">
-      <!-- ROW 1: Left side (odd) -->
+      <!-- ROW 1 -->
       <div class="timeline-row">
         <div class="timeline-content">
           <h3>2016</h3>
           <p>Learned Java to mod Minecraft, and JS to make custom games. Early code archived <a target="_blank" href="https://github.com/18sheimanr/personal-archive">here</a>.</p>
         </div>
       </div>
-
-      <!-- ROW 2: Right side (even) -->
+      <!-- ROW 2 -->
       <div class="timeline-row even">
         <div class="timeline-content">
           <h3>2018</h3>
-          <p>Interned at Virgin Pulse, where I created ML fraud detection models, and became an early user of Weights & Biases, providing feedback to their platform <a target="_blank" href="https://github.com/18sheimanr/ASL_digits/blob/master/ASL_digits.py">(example)</a>. Used learned iOS skills to create <a target="_blank" href="https://github.com/18sheimanr/PosterBoyAR">PosterBoy AR</a>.</p>
+          <p>Interned at Virgin Pulse, where I created ML fraud detection models, and became an early user of Weights &amp; Biases, providing feedback to their platform <a target="_blank" href="https://github.com/18sheimanr/ASL_digits/blob/master/ASL_digits.py">(example)</a>. Used learned iOS skills to create <a target="_blank" href="https://github.com/18sheimanr/PosterBoyAR">PosterBoy AR</a>.</p>
         </div>
       </div>
-
-      <!-- ROW 3: Left side (odd) -->
+      <!-- ROW 3 -->
       <div class="timeline-row">
         <div class="timeline-content">
           <h3>2022</h3>
           <p>After researching <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vQoK3oF87zr17uSai40esrdHPrkThOX7cssbsJswGPYdBNUegoPgSyZZk7NKjKYzAhtZZ_vEKAjQKqA/pub?start=false&loop=false&delayms=3000&slide=id.g23132e49eac_11_0">PEM fuel cells</a> and <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vS7JQzcZr-5yALUUb4mz6eH__9obeSZ8MMtPoDsIEO0jd5v1czBzUaqphAXKIoK1Q/pub?start=false&loop=false&delayms=3000&slide=id.p1">plastics manufacturing</a> at the University of Rochester, I joined Nordstrom to help implement Apple Pay, a new Gift Cards API, and disaster recovery tools for a massive event-driven platform processing <b>$20M daily.</b></p>
         </div>
       </div>
-
-      <!-- ROW 4: Right side (even) -->
+      <!-- ROW 4 -->
       <div class="timeline-row even">
         <div class="timeline-content">
            <h3>2023</h3>
           <p>Brought my skills to Pager Health to bring SRE best practices and LLMs to their bots/AI service. Launched multilingual medical summarizations with <b>80+ NPS</b> and bugs are down <b>90%</b>.</p>
         </div>
       </div>
-
+      <!-- ROW 5 -->
       <div class="timeline-row">
         <div class="timeline-content">
            <h3>2024</h3>
           <p>Launched <a target="_blank" href="https://www.tracktap.app">tracktap.app</a> and began building LLM-suggested nurse messages for Pager Health agents.</p>
         </div>
       </div>
-
+      <!-- ROW 6 -->
       <div class="timeline-row even">
         <div class="timeline-content">
            <h3>2025 Goals</h3>
           <p>Build LLM tools that save people time, avoid gimmicks. Maybe put out some music.</p>
         </div>
       </div>
-
     </div>
   </div>
 
+  <!-- GSAP (Community) CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <!-- ScrollTrigger (optional plugin for scroll-based animations) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Polished name animation
+    //    A subtle 3D rotation from top and fade in
+    gsap.from(".name-anim", {
+      duration: 1.6,
+      rotationX: 60,
+      opacity: 0,
+      y: -30,
+      ease: "power3.out",
+      transformOrigin: "top center"
+    });
+
+    // 2. Subtle parallax for background shapes
+    gsap.to(".bg-circle", {
+      scrollTrigger: {
+        trigger: ".container",
+        start: "top 90%",
+        end: "bottom top",
+        scrub: 1
+      },
+      y: -80,
+      rotation: 60
+    });
+    gsap.to(".bg-shape", {
+      scrollTrigger: {
+        trigger: ".container",
+        start: "top 90%",
+        end: "bottom top",
+        scrub: 1
+      },
+      y: 80,
+      rotation: 120
+    });
+
+    // 3. Timeline row animations (left or right slide)
+    document.querySelectorAll(".timeline-row").forEach((row) => {
+      let xValue = row.classList.contains("even") ? 50 : -50;
+      gsap.from(row, {
+        scrollTrigger: {
+          trigger: row,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+        x: xValue,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out"
+      });
+    });
+  </script>
 </body>
 </html>
