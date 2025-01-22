@@ -51,8 +51,8 @@
       height: 400px;
       border-radius: 50%;
       transform: translateY(-50%);
-      background: radial-gradient(circle, #6078ea 0%, #9f46ff 85%);
-      opacity: 0.6;
+      background: radial-gradient(circle, #fcb045, #6078ea 0%, #9f46ff 85%);
+      opacity: 0.8; /* increase visibility */
     }
     .bg-shape {
       position: absolute;
@@ -63,7 +63,7 @@
       transform: translateY(-50%) rotate(45deg);
       background: conic-gradient(from 180deg at 50% 50%, #fcb045, #fd1d1d, #833ab4, #fcb045);
       border-radius: 20%;
-      opacity: 0.5;
+      opacity: 0.8; /* increase visibility */
     }
 
     .container {
@@ -257,7 +257,7 @@
       <div class="timeline-row even">
         <div class="timeline-content">
            <h3>2025 Goals</h3>
-          <p>Build LLM tools that save people time, avoid gimmicks. Maybe put out some music.</p>
+          <p>Productionize/Launch <a target="_blank" href="https://github.com/18sheimanr/RepoGPT">RepoGPT.</a> Build LLM tools that save people time, avoid gimmicks. Maybe put out some music too!</p>
         </div>
       </div>
     </div>
@@ -272,7 +272,6 @@
     gsap.registerPlugin(ScrollTrigger);
 
     // 1. Polished name animation
-    //    A subtle 3D rotation from top and fade in
     gsap.from(".name-anim", {
       duration: 1.6,
       rotationX: 60,
@@ -282,7 +281,7 @@
       transformOrigin: "top center"
     });
 
-    // 2. Subtle parallax for background shapes
+    // 2. Bigger parallax + rotation for the background shapes
     gsap.to(".bg-circle", {
       scrollTrigger: {
         trigger: ".container",
@@ -290,8 +289,8 @@
         end: "bottom top",
         scrub: 1
       },
-      y: -80,
-      rotation: 60
+      y: -300,      // increase vertical shift
+      rotation: 180 // increase rotation
     });
     gsap.to(".bg-shape", {
       scrollTrigger: {
@@ -300,11 +299,35 @@
         end: "bottom top",
         scrub: 1
       },
-      y: 80,
-      rotation: 120
+      y: 300,       // increase vertical shift
+      rotation: 360 // increase rotation
     });
 
-    // 3. Timeline row animations (left or right slide)
+    // 3. Continuous pulsing scale so they're always "alive"
+    gsap.fromTo(
+      ".bg-circle",
+      { scale: 0.9 },
+      {
+        scale: 1.1,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      }
+    );
+    gsap.fromTo(
+      ".bg-shape",
+      { scale: 0.9 },
+      {
+        scale: 1.1,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      }
+    );
+
+    // 4. Timeline row animations (slide in left/right)
     document.querySelectorAll(".timeline-row").forEach((row) => {
       let xValue = row.classList.contains("even") ? 50 : -50;
       gsap.from(row, {
