@@ -27,6 +27,11 @@
       padding: 0;
       box-sizing: border-box;
     }
+
+    html {
+      overflow-x: hidden;
+      width: 100%;
+    }
     
     /* Add initial invisible state for social icons and resume button */
     .social-icon, .resume-btn {
@@ -253,7 +258,7 @@
     /* TIMELINE WRAPPER */
     .timeline {
       position: relative;
-      margin: 2.5rem 0;
+      margin: 1rem 0;
     }
     /* Vertical line in the center */
     .timeline::before {
@@ -380,6 +385,7 @@
       .header-container {
         flex-direction: column;
         align-items: center;
+        margin-bottom: 1rem;
       }
       
       .header-video-container {
