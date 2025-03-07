@@ -13,9 +13,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=SF+Pro+Display:wght@300;400;500;600&family=SF+Pro+Text:wght@300;400;500&display=swap"
     rel="stylesheet"
   >
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     /* RESET & BASE */
@@ -24,16 +27,24 @@
       padding: 0;
       box-sizing: border-box;
     }
+    
+    /* Add initial invisible state for social icons and resume button */
+    .social-icon, .resume-btn {
+      opacity: 0; /* Start invisible */
+    }
+    
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'SF Pro Text', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
       background: linear-gradient(120deg, #f4f8fd, #ffffff 60%);
-      color: #2c3e50;
+      color: #1d1d1f;
       min-height: 100vh;
       display: flex;
       align-items: flex-start; /* so background shapes can be visible on sides */
       justify-content: center;
       overflow-x: hidden; /* prevent accidental horizontal scroll */
       position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* BACKGROUND SHAPES WRAPPER */
@@ -48,7 +59,7 @@
     }
     .bg-circle {
       position: absolute;
-      top: 50%;
+      top: 70%;
       left: -150px;
       width: 400px;
       height: 400px;
@@ -68,6 +79,31 @@
       border-radius: 20%;
       opacity: 0.8; /* increase visibility */
     }
+    
+    /* New background shapes */
+    .bg-wave {
+      position: absolute;
+      top: 20%;
+      right: 100px;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, #6078ea, #9f46ff 60%, #fcb045);
+      opacity: 0.8;
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      transform: rotate(15deg);
+    }
+    
+    .bg-hexagon {
+      position: absolute;
+      top: 0;
+      left: 100px;
+      width: 380px;
+      height: 380px;
+      background: conic-gradient(from 220deg at 50% 50%, #833ab4, #fd1d1d, #fcb045, #833ab4);
+      opacity: 0.8;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      transform: rotate(-15deg);
+    }
 
     .container {
       position: relative;
@@ -79,26 +115,133 @@
       margin: 3rem auto;
       padding: 3rem 2rem;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      text-align: center;
+      text-align: left;
     }
 
     /* HEADER STYLES */
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      position: relative;
     }
+
+    .header-video-container {
+      flex: 0 0 auto;
+      margin-right: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-content {
+      flex: 1 1 auto;
+      min-width: 250px;
+    }
+
+    /* Socials section styles */
+    .socials-container {
+      position: absolute;
+      right: 0;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      z-index: 2;
+      padding-top: 1.5rem;
+    }
+
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      color: #0071e3;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-3px);
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      color: #005bb5;
+    }
+
+    .resume-btn {
+      margin-top: 1rem;
+      margin-left: -0.2rem;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      display: flex;
+      gap: 0.5rem;
+      width: fit-content;
+      background-color: rgba(0, 113, 227, 0.9);
+      color: white;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .resume-btn:hover {
+      background-color: rgba(0, 113, 227, 1);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      font-family: 'SF Pro Display', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    
     /* We'll apply the animation to .name-anim for fine control */
     .name-anim {
       display: inline-block; /* so 3D transform is isolated */
     }
     .name-anim span {
-      color: #6078ea;
+      color: #0071e3;
     }
 
     p {
-      margin-bottom: 0.5rem;
-      line-height: 1.6;
+      margin-bottom: 0.7rem;
+      line-height: 1.47;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: #86868b;
+    }
+
+    .header-email {
+      color: #0071e3;
+      text-decoration: none;
+    }
+
+    .header-title {
+      font-size: 1.1rem;
+      color: #1d1d1f;
+      font-weight: 500;
+    }
+
+    /* Video styling */
+    .header-video {
+      height: 220px;
+      width: auto;
+      display: block;
+      border-radius: 12px;
+      object-fit: cover;
     }
 
     /* TIMELINE WRAPPER */
@@ -136,7 +279,7 @@
       width: 45%;
       background: #fafafa;
       padding: 1.5rem;
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.07);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       text-align: left;
@@ -150,13 +293,49 @@
     .timeline-content h3 {
       margin-bottom: 0.5rem;
       font-size: 1.2rem;
-      font-weight: 700;
-      color: #2c3e50;
+      font-weight: 600;
+      color: #1d1d1f;
+      font-family: 'SF Pro Display', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      letter-spacing: -0.01em;
     }
-    .timeline-content p {
+    
+    /* New styles for the timeline items with icons */
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0.8rem;
+    }
+    
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timeline-icon {
+      color: #0071e3;
+      margin-right: 0.7rem;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+      width: 1.5rem;  /* Fixed width for all icons */
+      text-align: center; /* Center the icon in its fixed width container */
+    }
+    
+    .timeline-text {
       font-size: 0.95rem;
-      color: #555;
-      line-height: 1.4;
+      color: #86868b;
+      line-height: 1.47;
+      letter-spacing: -0.01em;
+      flex: 1;
+    }
+    
+    .timeline-content a {
+      color: #0071e3;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .timeline-content a:hover {
+      text-decoration: underline;
     }
 
     /* THE CIRCLE MARKER */
@@ -167,7 +346,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      border: 3px solid #6078ea;
+      border: 3px solid #0071e3;
       background: #fff;
       z-index: 1;
     }
@@ -184,8 +363,45 @@
     @media (max-width: 768px) {
       /* Make sure the container is somewhat translucent on mobile */
       .container {
-        background: rgba(255,255,255,0.85);
+        background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 400px, rgba(255,255,255,0.85) 100%);        text-align: center;
+        padding: 2rem 1.5rem;
       }
+
+      .resume-btn {
+        margin: 0 auto;
+      }
+      
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .header-video-container {
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+      }
+      
+      .header-content {
+        text-align: center;
+      }
+      
+      /* Adjust socials for mobile */
+      .socials-container {
+        position: relative;
+        flex-direction: row;
+        margin-top: 0;
+        right: auto;
+        top: auto;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      .header-video {
+        height: 180px;
+      }
+      
       /* Give the timeline line some space on mobile */
       .timeline::before {
         left: 5px;
@@ -198,10 +414,15 @@
          centered in the container. */
       .timeline-content {
         width: 90%;
-        margin: 1rem auto; /* so it’s centered, not flush left */
+        margin: 1rem auto; /* so it's centered, not flush left */
       }
       .timeline-row::after {
         left: 5px !important;
+      }
+      
+      /* Adjust icon size on mobile */
+      .timeline-icon {
+        font-size: 0.9rem;
       }
     }
 
@@ -213,54 +434,140 @@
   <div class="bg-shapes">
     <div class="bg-circle"></div>
     <div class="bg-shape"></div>
+    <div class="bg-wave"></div>
+    <div class="bg-hexagon"></div>
   </div>
 
   <div class="container">
-    <h1 class="name-anim">Robert <span>Sheiman</span></h1>
-    <p>sheiman.robert.18@gmail.com</p>
-    <p style="margin-bottom: 2rem;">24 y/o Software Engineer, B.S. Chemical Engineering</p>
+    <div class="header-container">
+      <div class="header-video-container">
+        <video class="header-video" autoplay loop muted playsinline>
+          <source src="memoji.webm" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="header-content">
+        <h1 class="name-anim">Robert <span>Sheiman</span></h1>
+        <p><a href="mailto:sheiman.robert.18@gmail.com" class="header-email">sheiman.robert.18@gmail.com</a></p>
+        <p class="header-title">Software Engineer, B.S. Chemical Engineering</p>
+        <a href="#" target="_blank" class="resume-btn" aria-label="Resume">
+          Resume <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+      
+      <!-- Socials Section -->
+      <div class="socials-container">
+        <a href="https://github.com/18sheimanr" target="_blank" class="social-icon" aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/robert-sheiman-86b050156" target="_blank" class="social-icon" aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        <a href="mailto:sheiman.robert.18@gmail.com" class="social-icon" aria-label="Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+      </div>
+    </div>
 
     <div class="timeline">
       <!-- ROW 1 -->
       <div class="timeline-row">
         <div class="timeline-content">
           <h3>2016</h3>
-          <p>As a curious teenager, I learned Java to mod Minecraft, and JS to make <a target="_blank" href="https://github.com/18sheimanr/personal-archive">custom games</a>.</p>
+          <div class="timeline-item">
+            <i class="fa-brands fa-java timeline-icon"></i>
+            <div class="timeline-text">Learned Java to mod Minecraft as a curious teenager</div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-brands fa-js timeline-icon"></i>
+            <div class="timeline-text">Created <a target="_blank" href="https://github.com/18sheimanr/personal-archive">custom games</a> with JavaScript</div>
+          </div>
         </div>
       </div>
       <!-- ROW 2 -->
       <div class="timeline-row even">
         <div class="timeline-content">
           <h3>2018</h3>
-          <p>At 17, I interned at Virgin Pulse, where I created <b>ML fraud detection models</b>. Here I became an early user of Weights &amp; Biases, and wrote <a target="_blank" href="https://wandb.ai/wandb_fc/articles/reports/Classifying-ASL-Digits--Vmlldzo1NDcxMTcw">an article</a> for their blog. I also learned iOS skills here, and soon created <a target="_blank" href="https://github.com/18sheimanr/PosterBoyAR">PosterBoy AR</a>.</p>
+          <div class="timeline-item">
+            <i class="fa-solid fa-brain timeline-icon"></i>
+            <div class="timeline-text">Interned at Virgin Pulse, creating <b>ML fraud detection models</b></div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-pen-to-square timeline-icon"></i>
+            <div class="timeline-text">Wrote <a target="_blank" href="https://wandb.ai/wandb_fc/articles/reports/Classifying-ASL-Digits--Vmlldzo1NDcxMTcw">an article</a> for Weights &amp; Biases as an early user</div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-brands fa-apple timeline-icon"></i>
+            <div class="timeline-text">Learned iOS skills and created <a target="_blank" href="https://github.com/18sheimanr/PosterBoyAR">PosterBoy AR</a></div>
+          </div>
         </div>
       </div>
       <!-- ROW 3 -->
       <div class="timeline-row">
         <div class="timeline-content">
           <h3>2022</h3>
-          <p>After researching <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vQoK3oF87zr17uSai40esrdHPrkThOX7cssbsJswGPYdBNUegoPgSyZZk7NKjKYzAhtZZ_vEKAjQKqA/pub?start=false&loop=false&delayms=3000&slide=id.g23132e49eac_11_0">PEM fuel cells</a> and <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vS7JQzcZr-5yALUUb4mz6eH__9obeSZ8MMtPoDsIEO0jd5v1czBzUaqphAXKIoK1Q/pub?start=false&loop=false&delayms=3000&slide=id.p1">plastics manufacturing</a> at the University of Rochester, I joined Nordstrom to help implement Apple Pay, a new Gift Cards API, and disaster recovery tools for a massive event-driven platform processing <b>$20M daily.</b></p>
+          <div class="timeline-item">
+            <i class="fa-solid fa-flask timeline-icon"></i>
+            <div class="timeline-text">Researched <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vQoK3oF87zr17uSai40esrdHPrkThOX7cssbsJswGPYdBNUegoPgSyZZk7NKjKYzAhtZZ_vEKAjQKqA/pub?start=false&loop=false&delayms=3000&slide=id.g23132e49eac_11_0">PEM fuel cells</a> and <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vS7JQzcZr-5yALUUb4mz6eH__9obeSZ8MMtPoDsIEO0jd5v1czBzUaqphAXKIoK1Q/pub?start=false&loop=false&delayms=3000&slide=id.p1">plastics manufacturing</a> at University of Rochester</div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-credit-card timeline-icon"></i>
+            <div class="timeline-text">Joined Nordstrom to implement Apple Pay and a new Gift Cards API</div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-server timeline-icon"></i>
+            <div class="timeline-text">Built disaster recovery tools for an event-driven platform processing <b>$20M daily</b></div>
+          </div>
         </div>
       </div>
       <!-- ROW 4 -->
       <div class="timeline-row even">
         <div class="timeline-content">
            <h3>2023</h3>
-          <p>Brought my skills to Pager Health to bring resilience and LLMs to their <a target="_blank" href="https://www.fiercehealthcare.com/payers/pager-healths-new-ai-tools-payers-could-eliminate-admin-roles">bots/AI service</a>. Launched multilingual medical summarizations with <b>~80 NPS</b> and bug reports are down <b>90%</b> after implementing new telemetry.</p>
+          <div class="timeline-item">
+            <i class="fa-solid fa-robot timeline-icon"></i>
+            <div class="timeline-text">Brought resilience and LLMs to Pager Health's <a target="_blank" href="https://www.fiercehealthcare.com/payers/pager-healths-new-ai-tools-payers-could-eliminate-admin-roles">bots/AI service</a></div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-language timeline-icon"></i>
+            <div class="timeline-text">Launched multilingual medical summarizations with <b>~80 NPS</b></div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-bug-slash timeline-icon"></i>
+            <div class="timeline-text">Reduced bug reports by <b>90%</b> after implementing new telemetry</div>
+          </div>
         </div>
       </div>
       <!-- ROW 5 -->
       <div class="timeline-row">
         <div class="timeline-content">
            <h3>2024</h3>
-          <p>Launched <a target="_blank" href="https://www.tracktap.app">tracktap.app</a>, and began building Reason-Action AI care agents as well as LLM-suggested nurse messages for Pager Health.</p>
+          <div class="timeline-item">
+            <i class="fa-solid fa-mobile-screen timeline-icon"></i>
+            <div class="timeline-text">Launched <a target="_blank" href="https://www.tracktap.app">tracktap.app</a></div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-circle-question timeline-icon"></i>
+            <div class="timeline-text">Develop FAQ troubleshooting agents for Pager Health</div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-message timeline-icon"></i>
+            <div class="timeline-text">Developing LLM-suggested nurse messages for healthcare providers</div>
+          </div>
         </div>
       </div>
       <!-- ROW 6 -->
       <div class="timeline-row even">
         <div class="timeline-content">
            <h3>2025 Goals</h3>
-          <p>Productionize/Launch <a target="_blank" href="https://github.com/18sheimanr/RepoGPT">RepoGPT</a> to run securely on GCP Vertex AI with no data collection. Launching various new ReAct agents for care navigation, clinical triage, and FAQ troubleshooting for Pager Health.</p>
+          <div class="timeline-item">
+            <i class="fa-solid fa-code-branch timeline-icon"></i>
+            <div class="timeline-text">Productionize/Launch <a target="_blank" href="https://github.com/18sheimanr/RepoGPT">RepoGPT</a> on GCP Vertex AI</div>
+          </div>
+          <div class="timeline-item">
+            <i class="fa-solid fa-robot timeline-icon"></i>
+            <div class="timeline-text">Launch ReAct agents for care navigation and clinical triage</div>
+          </div>
         </div>
       </div>
     </div>
@@ -274,14 +581,51 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // 1. Polished name animation
+    // 1. Polished name animation - faster
     gsap.from(".name-anim", {
-      duration: 1.6,
+      duration: 0.5,
       rotationX: 60,
       opacity: 0,
       y: -30,
       ease: "power3.out",
       transformOrigin: "top center"
+    });
+    
+    // Animate header content - faster with minimal delay
+    gsap.from(".header-content p", {
+      duration: 0.5,
+      opacity: 0,
+      y: 20,
+      stagger: 0.1,
+      ease: "power2.out",
+      delay: 0.1
+    });
+    
+    // Animate header video - faster
+    gsap.from(".header-video-container", {
+      duration: 0.5,
+      opacity: 0,
+      x: -30,
+      ease: "power2.out"
+    });
+    
+    // Animate socials - faster with minimal delay
+    gsap.to(".social-icon", {
+      duration: 0.4,
+      opacity: 1,
+      x: 0,
+      stagger: 0.05,
+      ease: "back.out(1.7)",
+      delay: 0.2
+    });
+    
+    // Animate resume button - faster with minimal delay
+    gsap.to(".resume-btn", {
+      duration: 0.5,
+      opacity: 1,
+      scale: 1,
+      ease: "elastic.out(1, 0.5)",
+      delay: 0.3
     });
 
     // 2. Bigger parallax + rotation for the background shapes
@@ -305,6 +649,29 @@
       y: 300,       // increase vertical shift
       rotation: 360 // increase rotation
     });
+    
+    // New animations for the wave and hexagon shapes - revised to match existing style
+    gsap.to(".bg-wave", {
+      scrollTrigger: {
+        trigger: ".container",
+        start: "top 90%",
+        end: "bottom top",
+        scrub: 1
+      },
+      y: -250,
+      rotation: 195
+    });
+    
+    gsap.to(".bg-hexagon", {
+      scrollTrigger: {
+        trigger: ".container",
+        start: "top 90%",
+        end: "bottom top",
+        scrub: 1
+      },
+      y: 250,
+      rotation: 345
+    });
 
     // 3. Continuous pulsing scale so they're always "alive"
     gsap.fromTo(
@@ -320,6 +687,31 @@
     );
     gsap.fromTo(
       ".bg-shape",
+      { scale: 0.9 },
+      {
+        scale: 1.1,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      }
+    );
+    
+    // Continuous animations for new shapes - matching existing style
+    gsap.fromTo(
+      ".bg-wave",
+      { scale: 0.9 },
+      {
+        scale: 1.1,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      }
+    );
+    
+    gsap.fromTo(
+      ".bg-hexagon",
       { scale: 0.9 },
       {
         scale: 1.1,
