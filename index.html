@@ -242,6 +242,12 @@
       display: block;
       border-radius: 12px;
       object-fit: cover;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-perspective: 1000;
+      perspective: 1000;
     }
 
     /* TIMELINE WRAPPER */
@@ -441,7 +447,8 @@
   <div class="container">
     <div class="header-container">
       <div class="header-video-container">
-        <video class="header-video" autoplay loop muted playsinline>
+        <video class="header-video" autoplay loop muted playsinline preload="auto" poster="memoji-poster.jpg">
+          <source src="memoji.mp4" type="video/mp4">
           <source src="memoji.webm" type="video/webm">
           Your browser does not support the video tag.
         </video>
@@ -736,6 +743,36 @@
         duration: 1,
         ease: "power2.out"
       });
+    });
+  </script>
+  
+  <!-- iOS Video Fix Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.querySelector('.header-video');
+      
+      // Fix for iOS video loop issue
+      video.addEventListener('ended', function() {
+        // Reset the video to the beginning
+        this.currentTime = 0;
+        // Play the video again
+        this.play();
+      }, false);
+      
+      // Force reload and play on iOS
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // Add a slight delay to ensure video is properly loaded
+        setTimeout(function() {
+          video.load();
+          video.play();
+        }, 100);
+        
+        // Add a click handler to restart video if it freezes
+        video.addEventListener('click', function() {
+          this.currentTime = 0;
+          this.play();
+        });
+      }
     });
   </script>
 </body>
