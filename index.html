@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
@@ -407,12 +407,132 @@
 
     /* ── FOOTER ── */
     footer {
-      padding: 5rem 2rem 3rem;
+      padding: 7rem 2rem 3rem;
       text-align: center;
       border-top: 1px solid var(--border);
       background: var(--bg-alt);
+      min-height: calc(100vh - var(--nav-height));
+      min-height: calc(100svh - var(--nav-height));
     }
     .footer-inner { max-width: 1100px; margin: 0 auto; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── CONTACT QUOTE ── */
+    .contact-quote {
+      max-width: 860px;
+      margin: 0 auto 1.75rem;
+      padding: 1.25rem 1.35rem 1.05rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background:
+        radial-gradient(1200px 280px at 50% -20%, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0) 60%),
+        linear-gradient(180deg, rgba(255,255,255,0.9), rgba(248,250,252,0.95));
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.06);
+    }
+    .contact-quote-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-secondary);
+      margin-bottom: 0.85rem;
+    }
+
+    .contact-quote-block {
+      position: relative;
+      text-align: left;
+      font-size: clamp(1.2rem, 2.4vw, 1.75rem);
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      font-weight: 650;
+      font-style: italic;
+      color: var(--text);
+      padding-left: 1.1rem;
+      border-left: 2px solid rgba(37, 99, 235, 0.35);
+    }
+    .contact-quote-block::before {
+      content: "“";
+      position: absolute;
+      left: -0.35rem;
+      top: -1.15rem;
+      font-size: 6.4rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      color: rgba(15, 23, 42, 0.10);
+      pointer-events: none;
+      user-select: none;
+    }
+    .quote-typed {
+      white-space: pre-wrap;
+    }
+    .quote-marker { display: inline-block; width: 0; height: 1em; }
+    .quote-dot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #000;
+      transform: translate3d(0, 0, 0);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .quote-inline-handwrite {
+      display: inline-block;
+      margin-left: 0.1em;
+      font-family: "Caveat", ui-rounded, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.96em;
+      color: rgba(37, 99, 235, 0.92);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.65);
+      filter: saturate(1.06);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 0;
+      opacity: 0;
+      vertical-align: -0.2em;
+    }
+    .quote-inline-handwrite.is-writing {
+      animation: quoteHandWrite 900ms steps(14, end) 80ms forwards;
+    }
+    @keyframes quoteHandWrite {
+      0% { max-width: 0; opacity: 0.15; }
+      10% { opacity: 1; }
+      100% { max-width: 13ch; opacity: 1; }
+    }
+
+    .quote-attrib {
+      display: block;
+      margin-top: 0.95rem;
+      font-size: 0.95rem;
+      font-weight: 550;
+      letter-spacing: -0.01em;
+      color: var(--text-secondary);
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    @keyframes dot-float {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -8px, 0); }
+    }
     .footer-heading {
       font-size: 1.625rem;
       font-weight: 700;
@@ -703,6 +823,15 @@
   <!-- FOOTER -->
   <footer id="contact">
     <div class="footer-inner">
+      <div class="contact-quote" data-reveal>
+        <div class="contact-quote-label">A note on collaboration</div>
+        <blockquote class="contact-quote-block" data-quote>
+          <span class="quote-typed" aria-hidden="true"></span><span class="quote-marker" aria-hidden="true"></span>
+          <span class="quote-dot" aria-hidden="true"></span>
+          <span class="sr-only">Programs must be written for people to read, and only incidentally for machines to execute. — Harold Abelson &amp; Gerald Jay Sussman</span>
+          <span class="quote-attrib" aria-hidden="true">— Harold Abelson &amp; Gerald Jay Sussman</span>
+        </blockquote>
+      </div>
       <h2 class="footer-heading" data-reveal>Let's Connect</h2>
       <a href="mailto:sheiman.robert.18@gmail.com" class="footer-email" data-reveal>sheiman.robert.18@gmail.com</a>
       <div class="footer-socials" data-reveal>
@@ -764,6 +893,154 @@
     revealOnScroll(".journey-section [data-reveal]");
     revealOnScroll("footer [data-reveal]");
 
+    /* ── Contact quote typing ── */
+    function prefersReducedMotion() {
+      return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function typeInto(el, text, { msPerChar = 22, jitter = 14, onDone } = {}) {
+      let i = 0;
+      const tick = () => {
+        i += 1;
+        el.textContent = text.slice(0, i);
+        if (i >= text.length) { onDone?.(); return; }
+        const variance = (Math.random() * jitter * 2) - jitter;
+        window.setTimeout(tick, Math.max(10, msPerChar + variance));
+      };
+      tick();
+    }
+
+    function initContactQuoteTyping() {
+      const wrap = document.querySelector(".contact-quote");
+      if (!wrap) return;
+      const block = wrap.querySelector("[data-quote]");
+      const typed = wrap.querySelector(".quote-typed");
+      const marker = wrap.querySelector(".quote-marker");
+      const dot = wrap.querySelector(".quote-dot");
+      const attrib = wrap.querySelector(".quote-attrib");
+      if (!block || !typed || !marker || !dot || !attrib) return;
+
+      const quotePlain = "Programs must be written for people to read, and only incidentally for machines to execute.";
+      const quoteWithHandwrite = 'Programs must be written for people <span class="quote-inline-handwrite">(and machines)</span> to read, and only incidentally for machines to execute.';
+      let started = false;
+      const DOT_SIZE = 18;
+      const LEAD_PX = 34;
+      let isTyping = false;
+      let rafId = 0;
+      let dotXTo, dotYTo;
+
+      const computeDotTarget = (leadPx) => {
+        const blockRect = block.getBoundingClientRect();
+        const markerRect = marker.getBoundingClientRect();
+        // x/y are the dot's top-left, positioned to sit on the text baseline area
+        const x = (markerRect.left - blockRect.left) + leadPx;
+        const y = (markerRect.top - blockRect.top) + (markerRect.height * 0.72) - (DOT_SIZE / 2);
+        return { x, y };
+      };
+
+      const placeDot = (immediate = false, leadPx = 0) => {
+        const { x, y } = computeDotTarget(leadPx);
+        if (immediate) {
+          gsap.set(dot, { x, y });
+        } else {
+          // Use quickTo (x/y only) so we never overwrite opacity/scale tweens.
+          if (!dotXTo || !dotYTo) {
+            dotXTo = gsap.quickTo(dot, "x", { duration: 0.18, ease: "power2.out" });
+            dotYTo = gsap.quickTo(dot, "y", { duration: 0.18, ease: "power2.out" });
+          }
+          dotXTo(x);
+          dotYTo(y);
+        }
+      };
+
+      const showInstant = () => {
+        typed.innerHTML = quoteWithHandwrite;
+        gsap.set(dot, { opacity: 0 });
+        gsap.to(attrib, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", delay: 0.15 });
+        const hw = typed.querySelector(".quote-inline-handwrite");
+        if (hw) {
+          if (prefersReducedMotion()) {
+            hw.style.opacity = "1";
+            hw.style.maxWidth = "13ch";
+          } else {
+            hw.classList.add("is-writing");
+          }
+        }
+      };
+
+      ScrollTrigger.create({
+        trigger: wrap,
+        start: "top 80%",
+        once: true,
+        onEnter: () => {
+          if (started) return;
+          started = true;
+          if (prefersReducedMotion()) { showInstant(); return; }
+
+          // Start dot floating before typing
+          typed.textContent = "";
+          gsap.set(dot, { opacity: 1, scale: 1, x: 0, y: 0 });
+          // Begin exactly at first letter position (no lead yet)
+          placeDot(true, 0);
+
+          // Subtle 0.8s float-in/out (grow/shrink + tiny drift)
+          const introTl = gsap.timeline({ defaults: { ease: "sine.inOut" } });
+          introTl.fromTo(dot,
+            { opacity: 0, scale: 0.80 },
+            { opacity: 1, scale: 1.22, duration: 0.42, ease: "sine.out" }
+          ).to(dot, {
+            scale: 0.92,
+            duration: 0.38
+          });
+
+          window.setTimeout(() => {
+            introTl.kill();
+            gsap.killTweensOf(dot);
+
+            isTyping = true;
+            typeInto(typed, quotePlain, {
+              msPerChar: 18,
+              jitter: 10,
+              onDone: () => {
+                isTyping = false;
+                if (rafId) cancelAnimationFrame(rafId);
+                // Fade dot only after final character is in
+                gsap.to(dot, { opacity: 0, scale: 0.86, duration: 0.42, ease: "power2.out", overwrite: true });
+                gsap.to(attrib, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", delay: 0.05 });
+                // Swap in the version with the handwritten insertion and play its animation.
+                typed.innerHTML = quoteWithHandwrite;
+                const hw = typed.querySelector(".quote-inline-handwrite");
+                if (hw) {
+                  if (prefersReducedMotion()) {
+                    hw.style.opacity = "1";
+                    hw.style.maxWidth = "13ch";
+                  } else {
+                    // Restart animation if needed (e.g. bfcache restore).
+                    hw.classList.remove("is-writing");
+                    void hw.offsetWidth;
+                    hw.classList.add("is-writing");
+                  }
+                }
+                if (dot._onResize) window.removeEventListener("resize", dot._onResize);
+              }
+            });
+
+            // Keep dot ahead of text while typing
+            const moveLoop = () => {
+              if (!started || !isTyping) return;
+              placeDot(false, LEAD_PX);
+              if (typed.textContent.length < quotePlain.length) {
+                rafId = requestAnimationFrame(moveLoop);
+              }
+            };
+            rafId = requestAnimationFrame(moveLoop);
+            dot._onResize = () => { if (isTyping) placeDot(true, LEAD_PX); };
+            window.addEventListener("resize", dot._onResize);
+          }, 1000);
+        }
+      });
+    }
+
     /* ── Staggered cards ── */
     ScrollTrigger.batch("[data-reveal-stagger]", {
       start: "top 88%",
@@ -772,6 +1049,8 @@
         gsap.to(batch, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: "power2.out" });
       }
     });
+
+    initContactQuoteTyping();
 
     /* ── Active nav link on scroll ── */
     const sections = ["expertise", "journey", "contact"];
