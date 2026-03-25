@@ -706,7 +706,6 @@
     <div class="section-inner">
       <p class="section-label" data-reveal>Experience</p>
       <h2 class="section-title" data-reveal>Journey</h2>
-      <p class="section-desc" data-reveal>From modding Minecraft as a teenager to building AI voice agents at Zocdoc.</p>
 
       <div class="journey-timeline">
 
@@ -923,35 +922,6 @@
       const quotePlain = "Programs must be written for people to read, and only incidentally for machines to execute.";
       const quoteWithHandwrite = 'Programs must be written for people <span class="quote-inline-handwrite">(and machines)</span> to read, and only incidentally for machines to execute.';
       let started = false;
-      const DOT_SIZE = 18;
-      const LEAD_PX = 34;
-      let isTyping = false;
-      let rafId = 0;
-      let dotXTo, dotYTo;
-
-      const computeDotTarget = (leadPx) => {
-        const blockRect = block.getBoundingClientRect();
-        const markerRect = marker.getBoundingClientRect();
-        // x/y are the dot's top-left, positioned to sit on the text baseline area
-        const x = (markerRect.left - blockRect.left) + leadPx;
-        const y = (markerRect.top - blockRect.top) + (markerRect.height * 0.72) - (DOT_SIZE / 2);
-        return { x, y };
-      };
-
-      const placeDot = (immediate = false, leadPx = 0) => {
-        const { x, y } = computeDotTarget(leadPx);
-        if (immediate) {
-          gsap.set(dot, { x, y });
-        } else {
-          // Use quickTo (x/y only) so we never overwrite opacity/scale tweens.
-          if (!dotXTo || !dotYTo) {
-            dotXTo = gsap.quickTo(dot, "x", { duration: 0.18, ease: "power2.out" });
-            dotYTo = gsap.quickTo(dot, "y", { duration: 0.18, ease: "power2.out" });
-          }
-          dotXTo(x);
-          dotYTo(y);
-        }
-      };
 
       const showInstant = () => {
         typed.innerHTML = quoteWithHandwrite;
@@ -963,7 +933,10 @@
             hw.style.opacity = "1";
             hw.style.maxWidth = "13ch";
           } else {
-            hw.classList.add("is-writing");
+            // Start the handwriting slightly after the quote appears.
+            window.setTimeout(() => {
+              hw.classList.add("is-writing");
+            }, 800);
           }
         }
       };
@@ -975,68 +948,7 @@
         onEnter: () => {
           if (started) return;
           started = true;
-          if (prefersReducedMotion()) { showInstant(); return; }
-
-          // Start dot floating before typing
-          typed.textContent = "";
-          gsap.set(dot, { opacity: 1, scale: 1, x: 0, y: 0 });
-          // Begin exactly at first letter position (no lead yet)
-          placeDot(true, 0);
-
-          // Subtle 0.8s float-in/out (grow/shrink + tiny drift)
-          const introTl = gsap.timeline({ defaults: { ease: "sine.inOut" } });
-          introTl.fromTo(dot,
-            { opacity: 0, scale: 0.80 },
-            { opacity: 1, scale: 1.22, duration: 0.42, ease: "sine.out" }
-          ).to(dot, {
-            scale: 0.92,
-            duration: 0.38
-          });
-
-          window.setTimeout(() => {
-            introTl.kill();
-            gsap.killTweensOf(dot);
-
-            isTyping = true;
-            typeInto(typed, quotePlain, {
-              msPerChar: 18,
-              jitter: 10,
-              onDone: () => {
-                isTyping = false;
-                if (rafId) cancelAnimationFrame(rafId);
-                // Fade dot only after final character is in
-                gsap.to(dot, { opacity: 0, scale: 0.86, duration: 0.42, ease: "power2.out", overwrite: true });
-                gsap.to(attrib, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", delay: 0.05 });
-                // Swap in the version with the handwritten insertion and play its animation.
-                typed.innerHTML = quoteWithHandwrite;
-                const hw = typed.querySelector(".quote-inline-handwrite");
-                if (hw) {
-                  if (prefersReducedMotion()) {
-                    hw.style.opacity = "1";
-                    hw.style.maxWidth = "13ch";
-                  } else {
-                    // Restart animation if needed (e.g. bfcache restore).
-                    hw.classList.remove("is-writing");
-                    void hw.offsetWidth;
-                    hw.classList.add("is-writing");
-                  }
-                }
-                if (dot._onResize) window.removeEventListener("resize", dot._onResize);
-              }
-            });
-
-            // Keep dot ahead of text while typing
-            const moveLoop = () => {
-              if (!started || !isTyping) return;
-              placeDot(false, LEAD_PX);
-              if (typed.textContent.length < quotePlain.length) {
-                rafId = requestAnimationFrame(moveLoop);
-              }
-            };
-            rafId = requestAnimationFrame(moveLoop);
-            dot._onResize = () => { if (isTyping) placeDot(true, LEAD_PX); };
-            window.addEventListener("resize", dot._onResize);
-          }, 1000);
+          showInstant();
         }
       });
     }
