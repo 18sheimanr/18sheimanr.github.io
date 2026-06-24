@@ -14,20 +14,24 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1640963269654-3fe248c5fba6?auto=format&fit=crop&w=1920&q=80">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
     :root {
-      --bg: #ffffff;
-      --bg-alt: #f8fafc;
+      --bg: #f0f6fc;
+      --bg-alt: #e8f0f8;
       --text: #0f172a;
-      --text-secondary: #64748b;
-      --accent: #2563eb;
+      --text-secondary: rgba(15, 23, 42, 0.72);
+      --accent: #1e40af;
       --accent-hover: #1d4ed8;
-      --accent-subtle: #eff6ff;
-      --border: #e2e8f0;
-      --nav-height: 64px;
+      --accent-subtle: rgba(15, 23, 42, 0.08);
+      --border: rgba(15, 23, 42, 0.15);
+      --nav-height: 76px;
       --section-gap: 7rem;
     }
 
@@ -36,7 +40,9 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
+      position: relative;
+      min-height: 100vh;
+      background: transparent;
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -44,83 +50,302 @@
       overflow-x: hidden;
     }
 
+    .nav-logo,
+    .nav-links a,
+    .btn-resume,
+    .social-link,
+    .hero-subtitle,
+    .scroll-cue-label,
+    .scroll-cue i,
+    .section-desc,
+    .expertise-card p,
+    .journey-item-text,
+    .journey-year-heading,
+    .contact-quote-label,
+    .contact-quote-block,
+    .quote-attrib,
+    .footer-email,
+    .footer-copy {
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+    }
+
+    /* Unsplash: purple & blue light illustration (pYDaWACPVZw) */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background: url('bg-purple-blue-light.jpg') center / cover no-repeat;
+    }
+    .page-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+    }
+    .page-bg-particles-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .page-bg-particles {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .page-bg-particles-overlay {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /*
+     * Liquid glass — layered stack per WebTricks + kevinbism DEV posts:
+     * low-opacity tint, heavy blur/saturate, refractive rim shadows, diagonal sheen
+     */
+    .liquid-glass {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px) saturate(185%) brightness(1.04);
+      -webkit-backdrop-filter: blur(20px) saturate(185%) brightness(1.04);
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      box-shadow:
+        0 10px 40px rgba(15, 23, 42, 0.12),
+        0 2px 8px rgba(15, 23, 42, 0.06),
+        inset 0 1px 1px rgba(255, 255, 255, 0.72),
+        inset 0 -1px 1px rgba(255, 255, 255, 0.28),
+        inset 1px 0 1px rgba(255, 255, 255, 0.22),
+        inset -1px 0 1px rgba(255, 255, 255, 0.22);
+    }
+    .liquid-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.36) 0%,
+        rgba(255, 255, 255, 0.08) 30%,
+        transparent 58%
+      );
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .liquid-glass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow:
+        inset -10px -8px 0 -11px rgba(255, 255, 255, 0.82),
+        inset 0 -9px 0 -8px rgba(255, 255, 255, 0.58),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.72);
+      opacity: 0.58;
+    }
+    .liquid-glass > * { position: relative; z-index: 1; }
+
+    /* Match refract script output so glass doesn't flash on load */
+    .liquid-glass.glass-refract {
+      backdrop-filter: blur(2.5px) saturate(185%) brightness(1.04);
+      -webkit-backdrop-filter: blur(2.5px) saturate(185%) brightness(1.04);
+    }
+
+    /* Refraction applied dynamically via JS (SDF map + SVG filter, Chromium only) */
+    .glass-refract.is-refracting {
+      backdrop-filter: blur(2.5px) saturate(185%) brightness(1.04);
+      -webkit-backdrop-filter: blur(2.5px) saturate(185%) brightness(1.04);
+    }
+
+    .liquid-glass-dark {
+      background: rgba(15, 23, 42, 0.62);
+      backdrop-filter: blur(24px) saturate(160%) brightness(0.95);
+      -webkit-backdrop-filter: blur(24px) saturate(160%) brightness(0.95);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #fff;
+      box-shadow:
+        0 12px 40px rgba(15, 23, 42, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.22),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.25);
+    }
+    .liquid-glass-dark::before {
+      background: linear-gradient(135deg, rgba(255,255,255,0.32) 0%, transparent 55%);
+    }
+    .liquid-glass-dark::after {
+      box-shadow:
+        inset -8px -6px 0 -9px rgba(255, 255, 255, 0.4),
+        inset 0 -7px 0 -6px rgba(255, 255, 255, 0.25),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.35);
+      opacity: 0.65;
+    }
+
+    /* ── CHIPS ── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .chip-accent,
+    .chip-neutral {
+      position: relative;
+    }
+    .chip.liquid-glass.chip-accent {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow:
+        0 6px 24px rgba(37, 99, 235, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.72);
+    }
+    .chip.liquid-glass.chip-neutral {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
     /* ── NAV ── */
     nav {
       position: fixed;
-      top: 0;
+      top: 0.75rem;
       left: 0;
       right: 0;
-      height: var(--nav-height);
-      background: rgba(255,255,255,0.82);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid var(--border);
       z-index: 1000;
       display: flex;
+      justify-content: center;
+      padding: 0 1rem;
+      pointer-events: none;
+    }
+    .nav-glass {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 700px;
+      border-radius: 999px;
+      padding: 0.4rem 0.5rem 0.4rem 0.6rem;
+      position: relative;
+      overflow: visible;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-logo { grid-column: 1; justify-self: start; }
+    .nav-links { grid-column: 2; justify-self: center; }
+    .nav-toggle { grid-column: 3; justify-self: end; }
+    .nav-logo {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-    }
-    .nav-inner {
-      width: 100%;
-      max-width: 1100px;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
+      width: 2.35rem;
+      height: 2.35rem;
+      border-radius: 50%;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.8125rem;
       color: var(--text);
       text-decoration: none;
       letter-spacing: -0.02em;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow:
+        0 4px 16px rgba(15, 23, 42, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .nav-logo:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 6px 20px rgba(15, 23, 42, 0.14),
+        inset 0 1px 1px rgba(255, 255, 255, 1);
     }
     .nav-links {
       display: flex;
-      gap: 2.25rem;
+      align-items: center;
+      gap: 0.15rem;
       list-style: none;
+      margin: 0;
+      padding: 0.2rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.55);
+    }
+    .nav-links li {
+      display: flex;
     }
     .nav-links a {
       text-decoration: none;
       color: var(--text-secondary);
       font-size: 0.8125rem;
-      font-weight: 500;
-      transition: color 0.2s;
+      font-weight: 600;
       letter-spacing: -0.005em;
-      position: relative;
+      padding: 0.48rem 1rem;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.25s ease, box-shadow 0.25s ease;
     }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1.5px;
-      background: var(--accent);
-      transition: width 0.25s ease;
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.28);
     }
-    .nav-links a:hover { color: var(--text); }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-links a.active { color: var(--text); }
-    .nav-links a.active::after { width: 100%; }
+    .nav-links a.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 1);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+    }
 
     .nav-toggle {
       display: none;
       flex-direction: column;
       gap: 5px;
-      background: none;
-      border: none;
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 2.35rem;
+      height: 2.35rem;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      padding: 4px;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
     }
+    .nav-toggle:hover { transform: scale(1.04); }
     .nav-toggle span {
       display: block;
-      width: 20px;
+      width: 16px;
       height: 1.5px;
       background: var(--text);
       border-radius: 2px;
-      transition: all 0.25s ease;
+      transition: transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.18s ease;
+      transform-origin: center;
     }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
     /* ── HERO ── */
     .hero {
@@ -140,13 +365,71 @@
       margin: 0 auto 2.5rem;
       position: relative;
       left: -4px;
+      width: fit-content;
+    }
+    .hero-video-blob {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      width: 118%;
+      height: 108%;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse 48% 46% at 50% 48%,
+        #0f172a 0%,
+        #0f172a 42%,
+        rgba(15, 23, 42, 0.92) 62%,
+        rgba(15, 23, 42, 0.55) 78%,
+        rgba(15, 23, 42, 0) 100%
+      );
+      filter: blur(10px);
+      z-index: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+    .hero-video-wrap.has-chromakey .hero-video-blob {
+      opacity: 0;
+    }
+    .hero-video-canvas {
+      position: relative;
+      z-index: 1;
+      display: none;
+      height: 160px;
+      width: auto;
+    }
+    .hero-video-wrap.has-chromakey .hero-video-canvas {
+      display: block;
     }
     .hero-video {
+      position: relative;
+      z-index: 1;
       height: 160px;
       width: auto;
       display: block;
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
+    }
+    .hero-video-wrap.has-chromakey .hero-video,
+    .hero-video-wrap.has-chromakey .hero-video-fallback {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-video-fallback {
+      position: relative;
+      z-index: 1;
+      height: 160px;
+      width: auto;
+      display: none;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+    .hero-video-wrap.uses-fallback .hero-video-fallback {
+      display: block;
     }
 
     .hero-name {
@@ -155,6 +438,8 @@
       letter-spacing: -0.045em;
       line-height: 1.08;
       margin-bottom: 1rem;
+      color: var(--text);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
     }
     .hero-name .letter {
       display: inline-block;
@@ -176,46 +461,55 @@
       gap: 0.75rem;
       flex-wrap: wrap;
     }
-    .btn-primary {
+    .btn-resume {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
-      padding: 0.7rem 1.5rem;
-      background: var(--text);
-      color: #fff;
-      border-radius: 9px;
+      padding: 0.72rem 1.45rem;
+      border-radius: 999px;
       text-decoration: none;
       font-size: 0.8125rem;
       font-weight: 600;
-      transition: all 0.2s;
       letter-spacing: -0.005em;
+      color: var(--text);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .btn-primary i { font-size: 0.7rem; }
-    .btn-primary:hover {
-      background: #1e293b;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    .btn-resume i {
+      font-size: 0.65rem;
+      opacity: 0.65;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-resume:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 12px 32px rgba(15, 23, 42, 0.14),
+        inset 0 1px 1px rgba(255, 255, 255, 1);
+    }
+    .btn-resume:active {
+      transform: translateY(0) scale(0.98);
     }
 
-    .hero-socials { display: flex; gap: 0.5rem; }
+    .hero-socials { display: flex; gap: 0.55rem; }
     .social-link {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      color: var(--text);
       text-decoration: none;
       font-size: 1.05rem;
-      transition: all 0.2s;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+    .social-link i { position: relative; z-index: 1; }
     .social-link:hover {
-      color: var(--text);
-      border-color: #cbd5e1;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow:
+        0 12px 32px rgba(15, 23, 42, 0.16),
+        inset 0 1px 1px rgba(255, 255, 255, 1);
     }
 
     .scroll-cue {
@@ -253,8 +547,8 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.85rem;
     }
     .section-title {
       font-size: clamp(1.75rem, 3vw, 2.375rem);
@@ -262,6 +556,8 @@
       letter-spacing: -0.035em;
       margin-bottom: 0.75rem;
       line-height: 1.2;
+      color: var(--text);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
     }
     .section-desc {
       font-size: 1.05rem;
@@ -273,23 +569,22 @@
     }
 
     /* ── EXPERTISE ── */
-    .expertise { background: var(--bg-alt); }
+    .expertise { background: transparent; }
     .expertise-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.25rem;
     }
     .expertise-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 18px;
       padding: 2rem 1.75rem;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .expertise-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
-      border-color: transparent;
+      transform: translateY(-4px);
+      box-shadow:
+        0 16px 44px rgba(15, 23, 42, 0.14),
+        inset 0 1px 1px rgba(255, 255, 255, 0.95);
     }
     .expertise-icon {
       width: 44px;
@@ -301,15 +596,16 @@
       font-size: 1.15rem;
       margin-bottom: 1.25rem;
     }
-    .expertise-icon.backend { background: #eff6ff; color: #2563eb; }
-    .expertise-icon.ai { background: #f5f3ff; color: #7c3aed; }
-    .expertise-icon.compliance { background: #ecfdf5; color: #059669; }
+    .expertise-icon.backend { background: rgba(30, 64, 175, 0.1); color: #1e40af; }
+    .expertise-icon.ai { background: rgba(91, 33, 182, 0.1); color: #5b21b6; }
+    .expertise-icon.compliance { background: rgba(5, 150, 105, 0.1); color: #047857; }
 
     .expertise-card h3 {
       font-size: 1rem;
       font-weight: 650;
       margin-bottom: 0.5rem;
       letter-spacing: -0.015em;
+      color: var(--text);
     }
     .expertise-card p {
       font-size: 0.875rem;
@@ -318,7 +614,7 @@
     }
 
     /* ── JOURNEY ── */
-    .journey-section { background: var(--bg); }
+    .journey-section { background: transparent; }
     .journey-timeline {
       position: relative;
       padding-left: 2.75rem;
@@ -348,16 +644,15 @@
       height: 16px;
       border-radius: 50%;
       background: linear-gradient(135deg, #818cf8, #c084fc, #f0abfc);
-      box-shadow: inset 0 0 0 3px var(--bg), 0 0 8px rgba(167, 139, 250, 0.25);
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.92), 0 0 8px rgba(167, 139, 250, 0.25);
       z-index: 1;
     }
     .journey-year-heading {
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--text);
       letter-spacing: 0.04em;
       margin-bottom: 0.875rem;
-      display: inline-block;
     }
 
     .journey-items {
@@ -370,16 +665,14 @@
       align-items: flex-start;
       gap: 0.875rem;
       padding: 0.875rem 1.125rem;
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      transition: all 0.25s ease;
+      border-radius: 14px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .journey-item:hover {
-      background: var(--bg);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-      border-color: transparent;
-      transform: translateX(3px);
+      transform: translateX(4px);
+      box-shadow:
+        0 12px 32px rgba(15, 23, 42, 0.14),
+        inset 0 1px 1px rgba(255, 255, 255, 1);
     }
     .journey-item-icon {
       color: var(--text-secondary);
@@ -398,19 +691,23 @@
     }
     .journey-item-text a {
       color: var(--accent);
-      text-decoration: none;
+      text-decoration: underline;
+      text-decoration-color: rgba(30, 64, 175, 0.35);
+      text-underline-offset: 0.15em;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.2s, text-decoration-color 0.2s;
     }
-    .journey-item-text a:hover { color: var(--accent-hover); text-decoration: underline; }
-    .journey-item-text b { font-weight: 600; }
+    .journey-item-text a:hover {
+      color: var(--accent-hover);
+      text-decoration-color: rgba(30, 64, 175, 0.7);
+    }
+    .journey-item-text b { font-weight: 600; color: var(--text); }
 
     /* ── FOOTER ── */
     footer {
       padding: 7rem 2rem 3rem;
       text-align: center;
-      border-top: 1px solid var(--border);
-      background: var(--bg-alt);
+      background: transparent;
       min-height: calc(100vh - var(--nav-height));
       min-height: calc(100svh - var(--nav-height));
     }
@@ -433,12 +730,7 @@
       max-width: 860px;
       margin: 0 auto 1.75rem;
       padding: 1.25rem 1.35rem 1.05rem;
-      border: 1px solid var(--border);
       border-radius: 16px;
-      background:
-        radial-gradient(1200px 280px at 50% -20%, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0) 60%),
-        linear-gradient(180deg, rgba(255,255,255,0.9), rgba(248,250,252,0.95));
-      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.06);
     }
     .contact-quote-label {
       font-size: 0.7rem;
@@ -459,7 +751,7 @@
       font-style: italic;
       color: var(--text);
       padding-left: 1.1rem;
-      border-left: 2px solid rgba(37, 99, 235, 0.35);
+      border-left: 2px solid rgba(15, 23, 42, 0.2);
     }
     .contact-quote-block::before {
       content: "“";
@@ -471,11 +763,14 @@
       font-weight: 800;
       letter-spacing: -0.06em;
       font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-      color: rgba(15, 23, 42, 0.10);
+      color: rgba(15, 23, 42, 0.08);
       pointer-events: none;
       user-select: none;
+      z-index: -1;
     }
     .quote-typed {
+      position: relative;
+      z-index: 1;
       white-space: pre-wrap;
     }
     .quote-marker { display: inline-block; width: 0; height: 1em; }
@@ -486,7 +781,7 @@
       width: 18px;
       height: 18px;
       border-radius: 999px;
-      background: #000;
+      background: #0f172a;
       transform: translate3d(0, 0, 0);
       opacity: 0;
       pointer-events: none;
@@ -495,12 +790,15 @@
     .quote-inline-handwrite {
       display: inline-block;
       margin-left: 0.1em;
+      margin-right: -0.35em;
+      padding-right: 0.35em;
+      box-sizing: border-box;
       font-family: "Caveat", ui-rounded, system-ui, -apple-system, "Segoe UI", sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 0.96em;
-      color: rgba(37, 99, 235, 0.92);
-      text-shadow: 0 1px 0 rgba(255,255,255,0.65);
+      color: rgba(15, 23, 42, 0.85);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
       filter: saturate(1.06);
       letter-spacing: 0.01em;
       white-space: nowrap;
@@ -512,13 +810,18 @@
     .quote-inline-handwrite.is-writing {
       animation: quoteHandWrite 900ms steps(14, end) 80ms forwards;
     }
+    .quote-inline-handwrite.is-written {
+      max-width: calc(13.6ch + 0.35em);
+    }
     @keyframes quoteHandWrite {
       0% { max-width: 0; opacity: 0.15; }
       10% { opacity: 1; }
-      100% { max-width: 13ch; opacity: 1; }
+      100% { max-width: calc(13.6ch + 0.35em); opacity: 1; }
     }
 
     .quote-attrib {
+      position: relative;
+      z-index: 1;
       display: block;
       margin-top: 0.95rem;
       font-size: 0.95rem;
@@ -538,40 +841,30 @@
       font-weight: 700;
       letter-spacing: -0.03em;
       margin-bottom: 0.875rem;
+      color: var(--text);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
     }
     .footer-email {
       color: var(--accent);
-      text-decoration: none;
+      text-decoration: underline;
+      text-decoration-color: rgba(30, 64, 175, 0.35);
+      text-underline-offset: 0.15em;
       font-size: 1.05rem;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.2s, text-decoration-color 0.2s;
     }
-    .footer-email:hover { color: var(--accent-hover); }
+    .footer-email:hover {
+      color: var(--accent-hover);
+      text-decoration-color: rgba(30, 64, 175, 0.7);
+    }
     .footer-socials {
       display: flex;
       justify-content: center;
       gap: 0.5rem;
       margin-top: 1.75rem;
     }
-    .footer-socials a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 1rem;
-      transition: all 0.2s;
-      background: var(--bg);
-    }
-    .footer-socials a:hover {
-      color: var(--text);
-      border-color: #cbd5e1;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    .footer-socials .social-link {
+      background: rgba(255, 255, 255, 0.16);
     }
     .footer-copy {
       margin-top: 2.5rem;
@@ -588,26 +881,100 @@
       :root { --section-gap: 4.5rem; }
 
       .nav-toggle { display: flex; }
+      .nav-glass {
+        max-width: none;
+        border-radius: 20px;
+        padding: 0.5rem 0.65rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-logo,
+      .nav-toggle {
+        grid-column: unset;
+        grid-row: unset;
+      }
       .nav-links {
-        display: none;
         position: absolute;
-        top: var(--nav-height);
+        top: calc(100% + 0.625rem);
         left: 0;
         right: 0;
-        background: rgba(255,255,255,0.96);
-        backdrop-filter: saturate(180%) blur(20px);
-        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        width: 100%;
+        z-index: 30;
         flex-direction: column;
-        padding: 1.25rem 2rem 1.5rem;
-        gap: 1.25rem;
-        border-bottom: 1px solid var(--border);
+        align-items: stretch;
+        padding: 0.5rem;
+        gap: 0.25rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(28px) saturate(140%) brightness(1.04);
+        -webkit-backdrop-filter: blur(28px) saturate(140%) brightness(1.04);
+        border: 1px solid rgba(255, 255, 255, 0.92);
+        box-shadow:
+          0 12px 40px rgba(15, 23, 42, 0.12),
+          0 2px 8px rgba(15, 23, 42, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        visibility: hidden;
+        pointer-events: none;
+        transform-origin: top center;
+        will-change: transform, opacity;
+        overflow: hidden;
+        isolation: isolate;
       }
-      .nav-links.open { display: flex; }
+      .nav-links.glass-refract {
+        backdrop-filter: blur(28px) saturate(140%) brightness(1.04) !important;
+        -webkit-backdrop-filter: blur(28px) saturate(140%) brightness(1.04) !important;
+      }
+      .nav-links::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.5) 0%,
+          rgba(241, 245, 249, 0.38) 48%,
+          rgba(226, 232, 240, 0.28) 100%
+        );
+        mix-blend-mode: normal;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .nav-links li { position: relative; z-index: 1; }
+      .nav-links.open {
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 1rem;
+        border-radius: 14px;
+        color: #0f172a;
+        font-weight: 600;
+        text-shadow: none;
+      }
+      .nav-links a:hover {
+        color: #020617;
+        background: rgba(15, 23, 42, 0.07);
+      }
+      .nav-links a.active {
+        color: #0f172a;
+        background: rgba(15, 23, 42, 0.1);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      nav { position: fixed; top: 0.5rem; padding: 0 0.75rem; }
 
       .hero { padding-top: calc(var(--nav-height) + 2rem); padding-bottom: 3rem; min-height: auto; }
       .hero-name { font-size: 2.25rem; }
       .hero-video-wrap { margin-bottom: 1.5rem; }
-      .hero-video { height: 100px; }
+      .hero-video-canvas,
+      .hero-video,
+      .hero-video-fallback { height: 100px; }
       .hero-subtitle { font-size: 1rem; margin-bottom: 1.75rem; }
       .scroll-cue { margin-top: 2rem; }
 
@@ -622,18 +989,30 @@
     /* ── REVEAL ANIMATION STATES ── */
     [data-reveal] { opacity: 0; transform: translateY(24px); }
     [data-reveal-stagger] { opacity: 0; transform: translateY(24px); }
+    [data-journey-reveal] { opacity: 0; transform: translateY(24px); }
   </style>
 </head>
 <body>
 
+  <div class="page-bg" aria-hidden="true"></div>
+  <div class="page-bg-particles-wrap" aria-hidden="true">
+    <canvas class="page-bg-particles"></canvas>
+    <canvas class="page-bg-particles-overlay"></canvas>
+  </div>
+
+  <!-- SVG filter defs — populated at runtime with per-element SDF displacement maps -->
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+    <defs id="glass-filter-defs"></defs>
+  </svg>
+
   <!-- NAV -->
-  <nav>
-    <div class="nav-inner">
+  <nav aria-label="Main navigation">
+    <div class="nav-glass liquid-glass glass-refract" data-glass-scale="-52" data-glass-chroma="10">
       <a href="#" class="nav-logo">RS</a>
-      <button class="nav-toggle" aria-label="Toggle navigation">
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
         <span></span><span></span><span></span>
       </button>
-      <ul class="nav-links">
+      <ul class="nav-links glass-refract" id="nav-menu" data-glass-scale="-52" data-glass-chroma="10" data-glass-rim="12">
         <li><a href="#expertise">Expertise</a></li>
         <li><a href="#journey">Journey</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -645,25 +1024,28 @@
   <section class="hero" id="top">
     <div class="hero-inner">
       <div class="hero-video-wrap" data-reveal>
+        <div class="hero-video-blob" aria-hidden="true"></div>
+        <canvas class="hero-video-canvas" aria-hidden="true"></canvas>
         <video class="hero-video" autoplay loop muted playsinline preload="auto" poster="memoji-poster.jpg">
           <source src="animoji.mp4" type="video/mp4">
           Your browser does not support the video tag
         </video>
+        <img class="hero-video-fallback" src="animoji.webp" alt="" aria-hidden="true" width="288" height="319" decoding="async" hidden>
       </div>
       <h1 class="hero-name"><span class="letter">R</span><span class="letter">o</span><span class="letter">b</span><span class="letter">e</span><span class="letter">r</span><span class="letter">t</span> <span class="letter">S</span><span class="letter">h</span><span class="letter">e</span><span class="letter">i</span><span class="letter">m</span><span class="letter">a</span><span class="letter">n</span></h1>
       <p class="hero-subtitle" data-reveal>Software Engineer, B.S. Chemical Engineering</p>
       <div class="hero-actions" data-reveal>
-        <a href="Resume (2025) - Robert Sheiman.pdf" target="_blank" class="btn-primary" aria-label="Resume">
+        <a href="Resume (2026) - Robert Sheiman.pdf" target="_blank" class="btn-resume liquid-glass glass-refract" data-glass-scale="-30" data-glass-chroma="7" data-glass-rim="8" aria-label="Resume">
           Resume <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </a>
         <div class="hero-socials">
-          <a href="https://github.com/18sheimanr" target="_blank" class="social-link" aria-label="GitHub">
+          <a href="https://github.com/18sheimanr" target="_blank" class="social-link liquid-glass glass-refract" data-glass-scale="-30" data-glass-chroma="7" data-glass-rim="8" aria-label="GitHub">
             <i class="fa-brands fa-github"></i>
           </a>
-          <a href="https://www.linkedin.com/in/robert-sheiman-86b050156" target="_blank" class="social-link" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/robert-sheiman-86b050156" target="_blank" class="social-link liquid-glass glass-refract" data-glass-scale="-30" data-glass-chroma="7" data-glass-rim="8" aria-label="LinkedIn">
             <i class="fa-brands fa-linkedin-in"></i>
           </a>
-          <a href="mailto:sheiman.robert.18@gmail.com" class="social-link" aria-label="Email">
+          <a href="mailto:sheiman.robert.18@gmail.com" class="social-link liquid-glass glass-refract" data-glass-scale="-30" data-glass-chroma="7" data-glass-rim="8" aria-label="Email">
             <i class="fa-solid fa-envelope"></i>
           </a>
         </div>
@@ -682,17 +1064,17 @@
       <h2 class="section-title" data-reveal>What I Build</h2>
       <p class="section-desc" data-reveal>Scalable backend systems, AI-powered products, and security-compliant healthcare technology.</p>
       <div class="expertise-grid">
-        <div class="expertise-card" data-reveal-stagger>
+        <div class="expertise-card liquid-glass glass-refract" data-glass-scale="-40" data-glass-chroma="9" data-glass-rim="14" data-reveal-stagger>
           <div class="expertise-icon backend"><i class="fa-solid fa-server"></i></div>
           <h3>Microservice Backends</h3>
           <p>From event-driven platforms processing millions of dollars to LLM analysis pipelines processing millions of calls.</p>
         </div>
-        <div class="expertise-card" data-reveal-stagger>
+        <div class="expertise-card liquid-glass glass-refract" data-glass-scale="-40" data-glass-chroma="9" data-glass-rim="14" data-reveal-stagger>
           <div class="expertise-icon ai"><i class="fa-solid fa-robot"></i></div>
           <h3>AI &amp; Machine Learning</h3>
           <p>LLM tooling, voice agents, medical summarization, and intelligent automation for healthcare.</p>
         </div>
-        <div class="expertise-card" data-reveal-stagger>
+        <div class="expertise-card liquid-glass glass-refract" data-glass-scale="-40" data-glass-chroma="9" data-glass-rim="14" data-reveal-stagger>
           <div class="expertise-icon compliance"><i class="fa-solid fa-shield-halved"></i></div>
           <h3>HIPAA &amp; PCI DSS</h3>
           <p>Compliant systems handling sensitive healthcare and financial data at scale.</p>
@@ -709,106 +1091,106 @@
 
       <div class="journey-timeline">
 
-        <div class="journey-year" data-reveal>
-          <div class="journey-dot"></div>
-          <div class="journey-year-heading">2016</div>
+        <div class="journey-year">
+          <div class="journey-dot" data-journey-reveal></div>
+          <div class="journey-year-heading" data-journey-reveal>2016</div>
           <div class="journey-items">
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-brands fa-java journey-item-icon"></i>
               <div class="journey-item-text">Learned Java to mod Minecraft as a curious teenager</div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-brands fa-js journey-item-icon"></i>
               <div class="journey-item-text">Created <a target="_blank" href="https://github.com/18sheimanr/personal-archive">custom games</a> with JavaScript</div>
             </div>
           </div>
         </div>
 
-        <div class="journey-year" data-reveal>
-          <div class="journey-dot"></div>
-          <div class="journey-year-heading">2018</div>
+        <div class="journey-year">
+          <div class="journey-dot" data-journey-reveal></div>
+          <div class="journey-year-heading" data-journey-reveal>2018</div>
           <div class="journey-items">
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-brain journey-item-icon"></i>
               <div class="journey-item-text">Interned at Virgin Pulse, creating <b>ML fraud detection models</b></div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-pen-to-square journey-item-icon"></i>
               <div class="journey-item-text">My <a target="_blank" href="https://github.com/18sheimanr/ASL_digits">example code</a> made it to <a target="_blank" href="https://wandb.ai/wandb_fc/articles/reports/Classifying-ASL-Digits--Vmlldzo1NDcxMTcw">an article</a> for Weights &amp; Biases</div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-brands fa-apple journey-item-icon"></i>
               <div class="journey-item-text">Learned iOS skills and created <a target="_blank" href="https://github.com/18sheimanr/PosterBoyAR">PosterBoy AR</a></div>
             </div>
           </div>
         </div>
 
-        <div class="journey-year" data-reveal>
-          <div class="journey-dot"></div>
-          <div class="journey-year-heading">2022</div>
+        <div class="journey-year">
+          <div class="journey-dot" data-journey-reveal></div>
+          <div class="journey-year-heading" data-journey-reveal>2022</div>
           <div class="journey-items">
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-flask journey-item-icon"></i>
               <div class="journey-item-text">Researched <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vQoK3oF87zr17uSai40esrdHPrkThOX7cssbsJswGPYdBNUegoPgSyZZk7NKjKYzAhtZZ_vEKAjQKqA/pub?start=false&loop=false&delayms=3000&slide=id.g23132e49eac_11_0">PEM fuel cells</a> and <a target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vS7JQzcZr-5yALUUb4mz6eH__9obeSZ8MMtPoDsIEO0jd5v1czBzUaqphAXKIoK1Q/pub?start=false&loop=false&delayms=3000&slide=id.p1">plastics manufacturing</a> at University of Rochester</div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-credit-card journey-item-icon"></i>
               <div class="journey-item-text">Joined Nordstrom to implement Apple Pay and a new Gift Cards API</div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-server journey-item-icon"></i>
               <div class="journey-item-text">Built disaster recovery tools for an event-driven platform processing <b>$20M daily</b></div>
             </div>
           </div>
         </div>
 
-        <div class="journey-year" data-reveal>
-          <div class="journey-dot"></div>
-          <div class="journey-year-heading">2023</div>
+        <div class="journey-year">
+          <div class="journey-dot" data-journey-reveal></div>
+          <div class="journey-year-heading" data-journey-reveal>2023</div>
           <div class="journey-items">
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-robot journey-item-icon"></i>
               <div class="journey-item-text">Brought resilience and LLMs to Pager Health's <a target="_blank" href="https://www.fiercehealthcare.com/payers/pager-healths-new-ai-tools-payers-could-eliminate-admin-roles">bots/AI service</a></div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-language journey-item-icon"></i>
               <div class="journey-item-text">Launched multilingual medical summarizations with <b>~80 NPS</b></div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-bug-slash journey-item-icon"></i>
               <div class="journey-item-text">Reduced bug reports by <b>90%</b> after implementing new telemetry</div>
             </div>
           </div>
         </div>
 
-        <div class="journey-year" data-reveal>
-          <div class="journey-dot"></div>
-          <div class="journey-year-heading">2024</div>
+        <div class="journey-year">
+          <div class="journey-dot" data-journey-reveal></div>
+          <div class="journey-year-heading" data-journey-reveal>2024</div>
           <div class="journey-items">
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-mobile-screen journey-item-icon"></i>
               <div class="journey-item-text">Launched <a target="_blank" href="https://www.tracktap.app">tracktap.app</a></div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-circle-question journey-item-icon"></i>
               <div class="journey-item-text">Developed FAQ troubleshooting agents for Pager Health</div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-message journey-item-icon"></i>
               <div class="journey-item-text">Developed AI-suggested nurse messages for healthcare providers</div>
             </div>
           </div>
         </div>
 
-        <div class="journey-year" data-reveal>
-          <div class="journey-dot"></div>
-          <div class="journey-year-heading">2025</div>
+        <div class="journey-year">
+          <div class="journey-dot" data-journey-reveal></div>
+          <div class="journey-year-heading" data-journey-reveal>2026</div>
           <div class="journey-items">
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-code-branch journey-item-icon"></i>
               <div class="journey-item-text">Programmed the <a target="_blank" href="https://rosepondmusic.com">Rose Pond Music</a> library as CTO, bringing modern technology to an under-innovated industry.</div>
             </div>
-            <div class="journey-item">
+            <div class="journey-item liquid-glass glass-refract" data-glass-scale="-38" data-glass-chroma="8" data-glass-rim="12" data-journey-reveal>
               <i class="fa-solid fa-robot journey-item-icon"></i>
               <div class="journey-item-text">Joined Zocdoc to help build <a target="_blank" href="https://www.zocdoc.com/about/ai-phone-assistant/">Zo</a>, the best AI voice agent for healthcare.</div>
             </div>
@@ -822,7 +1204,7 @@
   <!-- FOOTER -->
   <footer id="contact">
     <div class="footer-inner">
-      <div class="contact-quote" data-reveal>
+      <div class="contact-quote liquid-glass glass-refract" data-reveal data-glass-scale="-44" data-glass-chroma="9" data-glass-rim="16">
         <div class="contact-quote-label">A note on collaboration</div>
         <blockquote class="contact-quote-block" data-quote>
           <span class="quote-typed" aria-hidden="true"></span><span class="quote-marker" aria-hidden="true"></span>
@@ -834,17 +1216,132 @@
       <h2 class="footer-heading" data-reveal>Let's Connect</h2>
       <a href="mailto:sheiman.robert.18@gmail.com" class="footer-email" data-reveal>sheiman.robert.18@gmail.com</a>
       <div class="footer-socials" data-reveal>
-        <a href="https://github.com/18sheimanr" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/robert-sheiman-86b050156" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="mailto:sheiman.robert.18@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://github.com/18sheimanr" target="_blank" class="social-link liquid-glass glass-refract" data-glass-scale="-30" data-glass-chroma="7" data-glass-rim="8" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/robert-sheiman-86b050156" target="_blank" class="social-link liquid-glass glass-refract" data-glass-scale="-30" data-glass-chroma="7" data-glass-rim="8" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="mailto:sheiman.robert.18@gmail.com" class="social-link liquid-glass glass-refract" data-glass-scale="-30" data-glass-chroma="7" data-glass-rim="8" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
       </div>
-      <p class="footer-copy" data-reveal>&copy; 2025 Robert Sheiman</p>
+      <p class="footer-copy" data-reveal>&copy; 2026 Robert Sheiman</p>
     </div>
   </footer>
 
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", function initPageParticles() {
+      if (!window.Particles) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const particleBg = Particles.init({
+        selector: ".page-bg-particles",
+        maxParticles: 110,
+        sizeVariations: 4,
+        speed: 0.45,
+        color: ["#7eb8ff", "#93c5fd", "#a5d0ff", "#b8c9dc"],
+        minDistance: 130,
+        connectParticles: true,
+        responsive: [
+          {
+            breakpoint: 768,
+            options: {
+              maxParticles: 65,
+              minDistance: 110
+            }
+          },
+          {
+            breakpoint: 480,
+            options: {
+              maxParticles: 35,
+              minDistance: 95,
+              connectParticles: true
+            }
+          }
+        ]
+      });
+
+      const canvas = document.querySelector(".page-bg-particles");
+      const overlay = document.querySelector(".page-bg-particles-overlay");
+      const octx = overlay.getContext("2d");
+      const pointer = { x: -9999, y: -9999, active: false };
+
+      function resizeOverlay() {
+        const wrap = canvas.offsetParent;
+        const dpr = window.devicePixelRatio || 1;
+        overlay.width = wrap.clientWidth * dpr;
+        overlay.height = wrap.clientHeight * dpr;
+        overlay.style.width = "100%";
+        overlay.style.height = "100%";
+        octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function setPointer(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        pointer.x = clientX - rect.left;
+        pointer.y = clientY - rect.top;
+        pointer.active = true;
+      }
+
+      resizeOverlay();
+      window.addEventListener("resize", resizeOverlay, { passive: true });
+      document.addEventListener("pointermove", (e) => setPointer(e.clientX, e.clientY), { passive: true });
+      document.addEventListener("pointerdown", (e) => setPointer(e.clientX, e.clientY), { passive: true });
+
+      const draw = particleBg._draw.bind(particleBg);
+      particleBg._draw = function drawWithPointerRepulse() {
+        if (pointer.active) {
+          const radius = 200;
+          const push = 5;
+          for (const p of particleBg.storage) {
+            const dx = p.x - pointer.x;
+            const dy = p.y - pointer.y;
+            const distSq = dx * dx + dy * dy;
+            if (distSq > 0 && distSq < radius * radius) {
+              const dist = Math.sqrt(distSq);
+              const force = ((radius - dist) / radius) * push;
+              p.x += (dx / dist) * force;
+              p.y += (dy / dist) * force;
+            }
+          }
+        }
+        draw();
+      };
+
+      function drawPointerOverlay() {
+        const w = overlay.offsetParent.clientWidth;
+        const h = overlay.offsetParent.clientHeight;
+        octx.clearRect(0, 0, w, h);
+
+        if (pointer.active && particleBg.options.connectParticles) {
+          const linkDistance = particleBg.options.minDistance * 1.2;
+          for (const p of particleBg.storage) {
+            const dx = p.x - pointer.x;
+            const dy = p.y - pointer.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist <= linkDistance) {
+              const alpha = Math.max(0, (1.25 - dist / linkDistance) * 0.85);
+              octx.beginPath();
+              octx.strokeStyle = "rgba(147, 197, 253, " + alpha + ")";
+              octx.lineWidth = 1.6;
+              octx.moveTo(pointer.x, pointer.y);
+              octx.lineTo(p.x, p.y);
+              octx.stroke();
+            }
+          }
+
+          octx.beginPath();
+          octx.fillStyle = "rgba(147, 197, 253, 0.75)";
+          octx.arc(pointer.x, pointer.y, 4, 0, Math.PI * 2);
+          octx.fill();
+        }
+
+        requestAnimationFrame(drawPointerOverlay);
+      }
+
+      drawPointerOverlay();
+    });
+  </script>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
@@ -892,6 +1389,18 @@
     revealOnScroll(".journey-section [data-reveal]");
     revealOnScroll("footer [data-reveal]");
 
+    /* Journey years: one unified reveal per block (same feel as original) */
+    gsap.utils.toArray(".journey-year").forEach(year => {
+      const targets = year.querySelectorAll("[data-journey-reveal]");
+      gsap.to(targets, {
+        scrollTrigger: { trigger: year, start: "top 88%", once: true },
+        opacity: 1,
+        y: 0,
+        duration: 0.65,
+        ease: "power2.out"
+      });
+    });
+
     /* ── Contact quote typing ── */
     function prefersReducedMotion() {
       return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -931,11 +1440,14 @@
         if (hw) {
           if (prefersReducedMotion()) {
             hw.style.opacity = "1";
-            hw.style.maxWidth = "13ch";
+            hw.classList.add("is-written");
           } else {
             // Start the handwriting slightly after the quote appears.
             window.setTimeout(() => {
+              const finishHandwriting = () => hw.classList.add("is-written");
+              hw.addEventListener("animationend", finishHandwriting, { once: true });
               hw.classList.add("is-writing");
+              window.setTimeout(finishHandwriting, 1200);
             }, 800);
           }
         }
@@ -984,30 +1496,675 @@
     });
 
     /* ── Mobile nav toggle ── */
-    document.querySelector(".nav-toggle").addEventListener("click", function () {
-      document.querySelector(".nav-links").classList.toggle("open");
-      this.classList.toggle("active");
+    const navToggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+    const navItems = gsap.utils.toArray(".nav-links li");
+    const mobileNavMq = window.matchMedia("(max-width: 640px)");
+    let navMenuOpen = false;
+    let navMenuAnimating = false;
+
+    function isMobileNav() {
+      return mobileNavMq.matches;
+    }
+
+    function setNavMenuA11y(open) {
+      navToggle.setAttribute("aria-expanded", String(open));
+      navLinks.setAttribute("aria-hidden", isMobileNav() ? String(!open) : "false");
+    }
+
+    function resetMobileNavStyles() {
+      gsap.killTweensOf([navLinks, navItems]);
+      gsap.set(navLinks, { clearProps: "opacity,transform,scale" });
+      gsap.set(navItems, { clearProps: "opacity,transform" });
+      navLinks.classList.remove("open");
+      navToggle.classList.remove("active");
+      navMenuOpen = false;
+      navMenuAnimating = false;
+      setNavMenuA11y(false);
+    }
+
+    function openMobileNav() {
+      if (navMenuOpen) return;
+      gsap.killTweensOf([navLinks, navItems]);
+      navMenuAnimating = true;
+      navLinks.classList.add("open");
+      navToggle.classList.add("active");
+      navMenuOpen = true;
+      setNavMenuA11y(true);
+
+      if (prefersReducedMotion()) {
+        gsap.set(navLinks, { opacity: 1, y: 0, scale: 1 });
+        gsap.set(navItems, { opacity: 1, y: 0 });
+        navMenuAnimating = false;
+        return;
+      }
+
+      gsap.set(navItems, { opacity: 0, y: -10 });
+      gsap.fromTo(navLinks,
+        { opacity: 0, y: -12, scale: 0.94 },
+        {
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.34,
+          ease: "back.out(1.85)",
+          onComplete: () => { navMenuAnimating = false; }
+        }
+      );
+      gsap.to(navItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.26,
+        stagger: 0.05,
+        ease: "back.out(1.6)",
+        delay: 0.07
+      });
+    }
+
+    function closeMobileNav({ immediate = false } = {}) {
+      if (!navLinks.classList.contains("open") && !navMenuOpen) return;
+
+      const finish = () => {
+        navLinks.classList.remove("open");
+        navToggle.classList.remove("active");
+        navMenuOpen = false;
+        navMenuAnimating = false;
+        setNavMenuA11y(false);
+        gsap.set(navLinks, { clearProps: "opacity,transform,scale" });
+        gsap.set(navItems, { clearProps: "opacity,transform" });
+      };
+
+      if (immediate || prefersReducedMotion()) {
+        gsap.killTweensOf([navLinks, navItems]);
+        finish();
+        return;
+      }
+
+      navMenuAnimating = true;
+      gsap.killTweensOf([navLinks, navItems]);
+      gsap.to(navItems, {
+        opacity: 0,
+        y: -6,
+        duration: 0.14,
+        stagger: 0.025,
+        ease: "power2.in"
+      });
+      gsap.to(navLinks, {
+        opacity: 0,
+        y: -8,
+        scale: 0.97,
+        duration: 0.2,
+        ease: "power2.in",
+        onComplete: finish
+      });
+    }
+
+    navToggle.addEventListener("click", function () {
+      if (!isMobileNav()) return;
+      if (navMenuOpen) closeMobileNav();
+      else openMobileNav();
     });
+
     document.querySelectorAll(".nav-links a").forEach(a => {
       a.addEventListener("click", () => {
-        document.querySelector(".nav-links").classList.remove("open");
-        document.querySelector(".nav-toggle").classList.remove("active");
+        if (isMobileNav()) closeMobileNav();
       });
     });
 
-    /* ── iOS video fix ── */
-    document.addEventListener("DOMContentLoaded", function () {
-      const video = document.querySelector(".hero-video");
-      if (!video) return;
+    mobileNavMq.addEventListener("change", () => {
+      if (!isMobileNav()) resetMobileNavStyles();
+      else setNavMenuA11y(navMenuOpen);
+    });
+
+    setNavMenuA11y(false);
+
+    /* ── Memoji: edge-connected white removal + canvas compositing ── */
+    function initMemojiVideo() {
+      const wrap = document.querySelector(".hero-video-wrap");
+      const video = wrap?.querySelector(".hero-video");
+      const fallbackImg = wrap?.querySelector(".hero-video-fallback");
+      const canvas = wrap?.querySelector(".hero-video-canvas");
+      if (!wrap || !video || !canvas) return;
+
+      const canProcess = !prefersReducedMotion()
+        && typeof canvas.getContext === "function";
+
+      let activeSource = video;
+      let usingFallback = false;
+
+      if (!canProcess) {
+        canvas.remove();
+      }
+
+      const ctx = canProcess ? canvas.getContext("2d", { willReadFrequently: true }) : null;
+      if (canProcess && !ctx) { canvas.remove(); }
+
+      let rafId = null;
+      let chromakeyReady = false;
+      const displayHeight = () => window.matchMedia("(max-width: 640px)").matches ? 100 : 160;
+
+      function sourceWidth() {
+        return activeSource === video ? video.videoWidth : fallbackImg.naturalWidth;
+      }
+
+      function sourceHeight() {
+        return activeSource === video ? video.videoHeight : fallbackImg.naturalHeight;
+      }
+
+      function sourceReady() {
+        if (activeSource === video) return video.readyState >= 2;
+        return fallbackImg.complete && fallbackImg.naturalWidth > 0;
+      }
+
+      function whiteness(r, g, b) {
+        const min = Math.min(r, g, b);
+        const max = Math.max(r, g, b);
+        const lum = min / 255;
+        const chromaFactor = 1 - Math.min((max - min) / 40, 1);
+        return lum * chromaFactor;
+      }
+
+      function isBgWhite(r, g, b) {
+        return whiteness(r, g, b) > 0.92;
+      }
+
+      function colorDist(r1, g1, b1, r2, g2, b2) {
+        const dr = r1 - r2;
+        const dg = g1 - g2;
+        const db = b1 - b2;
+        return Math.sqrt(dr * dr + dg * dg + db * db);
+      }
+
+      function sizeCanvas() {
+        if (!ctx) return;
+        const cssH = displayHeight();
+        const aspect = sourceWidth() / sourceHeight() || 1;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.height = Math.round(cssH * dpr);
+        canvas.width = Math.round(cssH * aspect * dpr);
+        canvas.style.height = cssH + "px";
+        canvas.style.width = (cssH * aspect) + "px";
+      }
+
+      function avgFgNeighbors(d, bg, w, h, i) {
+        let fr = 0, fg = 0, fb = 0, fn = 0;
+        if (!bg[i - 1]) { const np = (i - 1) * 4; fr += d[np]; fg += d[np + 1]; fb += d[np + 2]; fn++; }
+        if (!bg[i + 1]) { const np = (i + 1) * 4; fr += d[np]; fg += d[np + 1]; fb += d[np + 2]; fn++; }
+        if (!bg[i - w]) { const np = (i - w) * 4; fr += d[np]; fg += d[np + 1]; fb += d[np + 2]; fn++; }
+        if (!bg[i + w]) { const np = (i + w) * 4; fr += d[np]; fg += d[np + 1]; fb += d[np + 2]; fn++; }
+        if (fn < 2) return null;
+        return [fr / fn, fg / fn, fb / fn];
+      }
+
+      function distFromBg(bg, w, h) {
+        const len = w * h;
+        const dist = new Uint8Array(len);
+        dist.fill(255);
+        const qx = new Int16Array(len);
+        const qy = new Int16Array(len);
+        let qs = 0, qe = 0;
+
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            const i = y * w + x;
+            if (!bg[i]) continue;
+            dist[i] = 0;
+            qx[qe] = x; qy[qe] = y; qe++;
+          }
+        }
+
+        while (qs < qe) {
+          const x = qx[qs], y = qy[qs]; qs++;
+          const nd = dist[y * w + x] + 1;
+          if (nd > 4) continue;
+          if (x > 0) pushDist(x - 1, y, nd);
+          if (x < w - 1) pushDist(x + 1, y, nd);
+          if (y > 0) pushDist(x, y - 1, nd);
+          if (y < h - 1) pushDist(x, y + 1, nd);
+        }
+
+        function pushDist(x, y, nd) {
+          const i = y * w + x;
+          if (nd < dist[i]) {
+            dist[i] = nd;
+            qx[qe] = x; qy[qe] = y; qe++;
+          }
+        }
+
+        return dist;
+      }
+
+      function softenAlpha(d, w, h) {
+        const len = w * h;
+        const alpha = new Uint8ClampedArray(len);
+        for (let i = 0; i < len; i++) alpha[i] = d[i * 4 + 3];
+
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            const i = y * w + x;
+            if (!alpha[i]) continue;
+
+            let sum = 0;
+            let n = 0;
+            for (let dy = -1; dy <= 1; dy++) {
+              for (let dx = -1; dx <= 1; dx++) {
+                const nx = x + dx;
+                const ny = y + dy;
+                if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+                sum += alpha[ny * w + nx];
+                n++;
+              }
+            }
+
+            const softened = sum / n;
+            if (softened < 252) d[i * 4 + 3] = Math.round(softened);
+          }
+        }
+      }
+
+      function removeEdgeWhite() {
+        if (!ctx) return;
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.drawImage(activeSource, 0, 0, w, h);
+        const img = ctx.getImageData(0, 0, w, h);
+        const d = img.data;
+        const len = w * h;
+        const bg = new Uint8Array(len);
+        const qx = new Int16Array(len);
+        const qy = new Int16Array(len);
+        let qs = 0, qe = 0;
+
+        function tryPush(x, y) {
+          if (x < 0 || y < 0 || x >= w || y >= h) return;
+          const i = y * w + x;
+          if (bg[i]) return;
+          const p = i * 4;
+          if (!isBgWhite(d[p], d[p + 1], d[p + 2])) return;
+          bg[i] = 1;
+          qx[qe] = x; qy[qe] = y; qe++;
+        }
+
+        for (let x = 0; x < w; x++) { tryPush(x, 0); tryPush(x, h - 1); }
+        for (let y = 0; y < h; y++) { tryPush(0, y); tryPush(w - 1, y); }
+
+        while (qs < qe) {
+          const x = qx[qs], y = qy[qs]; qs++;
+          tryPush(x - 1, y); tryPush(x + 1, y);
+          tryPush(x, y - 1); tryPush(x, y + 1);
+        }
+
+        for (let i = 0; i < len; i++) {
+          if (bg[i]) d[i * 4 + 3] = 0;
+        }
+
+        for (let y = 1; y < h - 1; y++) {
+          for (let x = 1; x < w - 1; x++) {
+            const i = y * w + x;
+            if (bg[i]) continue;
+            const touchesBg = bg[i - 1] || bg[i + 1] || bg[i - w] || bg[i + w];
+            if (!touchesBg) continue;
+
+            const p = i * 4;
+            const fg = avgFgNeighbors(d, bg, w, h, i);
+            if (!fg) continue;
+
+            const r = d[p], g = d[p + 1], b = d[p + 2];
+            const dWhite = colorDist(r, g, b, 255, 255, 255);
+            const dFg = colorDist(r, g, b, fg[0], fg[1], fg[2]);
+            if (dWhite < dFg) {
+              const keep = Math.pow(dFg / (dWhite + dFg), 0.75);
+              d[p + 3] = Math.round(d[p + 3] * keep);
+            }
+          }
+        }
+
+        const dist = distFromBg(bg, w, h);
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            const i = y * w + x;
+            const edgeDepth = dist[i];
+            if (!edgeDepth || edgeDepth > 4) continue;
+
+            const p = i * 4;
+            const r = d[p], g = d[p + 1], b = d[p + 2];
+            const wscore = whiteness(r, g, b);
+            if (wscore < 0.42) continue;
+
+            const fg = avgFgNeighbors(d, bg, w, h, i);
+            if (!fg) continue;
+
+            const edgeFade = 1 - edgeDepth / 5;
+            const whiteFade = Math.min(1, (wscore - 0.42) / 0.52);
+            const mix = edgeFade * whiteFade;
+            const alphaKeep = 1 - mix * 0.92;
+
+            d[p + 3] = Math.round(d[p + 3] * alphaKeep);
+            d[p]     = Math.round(r + (fg[0] - r) * mix * 0.82);
+            d[p + 1] = Math.round(g + (fg[1] - g) * mix * 0.82);
+            d[p + 2] = Math.round(b + (fg[2] - b) * mix * 0.82);
+          }
+        }
+
+        softenAlpha(d, w, h);
+
+        ctx.putImageData(img, 0, 0);
+      }
+
+      function tick() {
+        if (sourceReady()) removeEdgeWhite();
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function enableChromakey() {
+        if (!ctx || chromakeyReady) return;
+        chromakeyReady = true;
+        sizeCanvas();
+        wrap.classList.add("has-chromakey");
+        tick();
+      }
+
+      function resetChromakey() {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        chromakeyReady = false;
+        wrap.classList.remove("has-chromakey");
+      }
+
+      let videoHasPlayed = false;
+
+      function activateFallback() {
+        if (!fallbackImg || usingFallback) return;
+        usingFallback = true;
+        activeSource = fallbackImg;
+        wrap.classList.add("uses-fallback");
+        video.hidden = true;
+        fallbackImg.hidden = false;
+        resetChromakey();
+
+        function onFallbackReady() {
+          if (ctx) enableChromakey();
+        }
+
+        if (fallbackImg.complete && fallbackImg.naturalWidth > 0) onFallbackReady();
+        else fallbackImg.addEventListener("load", onFallbackReady, { once: true });
+      }
+
+      function watchVideoPlayback() {
+        const startTime = video.currentTime;
+        window.setTimeout(function () {
+          if (usingFallback || activeSource !== video || videoHasPlayed) return;
+          const stalled = video.paused
+            && !video.ended
+            && video.readyState >= 2
+            && video.currentTime <= startTime + 0.01;
+          if (stalled) activateFallback();
+        }, 1500);
+      }
+
+      function attemptVideoPlay() {
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(function (err) {
+            if (!err || err.name === "NotAllowedError") activateFallback();
+          });
+        }
+      }
+
+      video.addEventListener("playing", function () {
+        videoHasPlayed = true;
+      });
+
+      if (ctx) {
+        video.addEventListener("loadeddata", enableChromakey);
+        if (video.readyState >= 2) enableChromakey();
+      }
+
       video.addEventListener("ended", function () {
         this.currentTime = 0;
         this.play();
       });
+
+      window.addEventListener("resize", function () {
+        if (chromakeyReady) sizeCanvas();
+      });
+
+      attemptVideoPlay();
+      watchVideoPlayback();
+
       if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        setTimeout(function () { video.load(); video.play(); }, 100);
-        video.addEventListener("click", function () { this.currentTime = 0; this.play(); });
+        window.setTimeout(function () {
+          if (!usingFallback) {
+            attemptVideoPlay();
+            watchVideoPlayback();
+          }
+        }, 100);
       }
-    });
+    }
+
+    initMemojiVideo();
+
+    /*
+     * Liquid-glass edge refraction + chromatic aberration
+     * SDF displacement map per element (LeonardSEO / kube.io / Glacé approach).
+     * feTurbulence smears the whole surface — wrong. Rim-only SDF map is correct.
+     * Chromium-only: backdrop-filter: url(#svg-filter)
+     */
+    (function initLiquidGlassRefraction() {
+      const SVG_NS = "http://www.w3.org/2000/svg";
+      const defs = document.getElementById("glass-filter-defs");
+      if (!defs) return;
+
+      const mapCache = new Map();
+      const filterRegistry = new Map();
+      let filterCounter = 0;
+
+      function supportsChromiumSvgBackdrop() {
+        if (!CSS.supports("backdrop-filter", "blur(1px)")) return false;
+        const ua = navigator.userAgent;
+        const isSafari = /Safari/.test(ua) && !/Chrome|Chromium|Edg|OPR/.test(ua);
+        const isFirefox = /Firefox/.test(ua);
+        return !isSafari && !isFirefox;
+      }
+
+      if (!supportsChromiumSvgBackdrop()) return;
+
+      function roundedRectSDF(x, y, w, h, r) {
+        const cx = w / 2, cy = h / 2;
+        const qx = Math.abs(x - cx) - (cx - r);
+        const qy = Math.abs(y - cy) - (cy - r);
+        const outside = Math.hypot(Math.max(qx, 0), Math.max(qy, 0));
+        const inside = Math.min(Math.max(qx, qy), 0);
+        return outside + inside - r;
+      }
+
+      function smoothstep(edge0, edge1, x) {
+        const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
+        return t * t * (3 - 2 * t);
+      }
+
+      function generateSDFMapDataUrl(width, height, radius, rim) {
+        const key = `${width}x${height}x${radius}x${rim}`;
+        if (mapCache.has(key)) return mapCache.get(key);
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        const img = ctx.createImageData(width, height);
+        const d = img.data;
+        const step = width * height > 12000 ? 2 : 1;
+
+        for (let y = 0; y < height; y += step) {
+          for (let x = 0; x < width; x += step) {
+            const sdf = roundedRectSDF(x, y, width, height, radius);
+            const gx = roundedRectSDF(x + 1, y, width, height, radius)
+              - roundedRectSDF(x - 1, y, width, height, radius);
+            const gy = roundedRectSDF(x, y + 1, width, height, radius)
+              - roundedRectSDF(x, y - 1, width, height, radius);
+            const glen = Math.hypot(gx, gy) || 1;
+            const nx = gx / glen;
+            const ny = gy / glen;
+            const edgeDist = Math.max(0, -sdf);
+            const factor = 1 - smoothstep(0, rim, edgeDist);
+            const r = Math.min(255, Math.max(0, 128 + nx * factor * 127));
+            const g = Math.min(255, Math.max(0, 128 + ny * factor * 127));
+
+            if (step === 1) {
+              const i = (y * width + x) * 4;
+              d[i] = r; d[i + 1] = g; d[i + 2] = 128; d[i + 3] = 255;
+            } else {
+              for (let oy = 0; oy < step && y + oy < height; oy++) {
+                for (let ox = 0; ox < step && x + ox < width; ox++) {
+                  const i = ((y + oy) * width + (x + ox)) * 4;
+                  d[i] = r; d[i + 1] = g; d[i + 2] = 128; d[i + 3] = 255;
+                }
+              }
+            }
+          }
+        }
+
+        ctx.putImageData(img, 0, 0);
+        const url = canvas.toDataURL("image/png");
+        mapCache.set(key, url);
+        return url;
+      }
+
+      function appendDisplacementPass(filter, scale, resultName, colorMatrixValues) {
+        const feDisp = document.createElementNS(SVG_NS, "feDisplacementMap");
+        feDisp.setAttribute("in", "SourceGraphic");
+        feDisp.setAttribute("in2", "map");
+        feDisp.setAttribute("scale", String(scale));
+        feDisp.setAttribute("xChannelSelector", "R");
+        feDisp.setAttribute("yChannelSelector", "G");
+        feDisp.setAttribute("result", "disp_" + resultName);
+
+        const feColor = document.createElementNS(SVG_NS, "feColorMatrix");
+        feColor.setAttribute("in", "disp_" + resultName);
+        feColor.setAttribute("type", "matrix");
+        feColor.setAttribute("values", colorMatrixValues);
+        feColor.setAttribute("result", resultName);
+
+        filter.appendChild(feDisp);
+        filter.appendChild(feColor);
+      }
+
+      function buildChromaticFilter(mapUrl, w, h, scale, chromaSpread) {
+        const filterKey = `${w}x${h}@${scale}@${chromaSpread}`;
+        if (filterRegistry.has(filterKey)) return filterRegistry.get(filterKey);
+
+        const filterId = "glass-filter-" + (filterCounter++);
+        const filter = document.createElementNS(SVG_NS, "filter");
+        filter.setAttribute("id", filterId);
+        filter.setAttribute("x", "0");
+        filter.setAttribute("y", "0");
+        filter.setAttribute("width", "100%");
+        filter.setAttribute("height", "100%");
+        filter.setAttribute("color-interpolation-filters", "sRGB");
+
+        const feImage = document.createElementNS(SVG_NS, "feImage");
+        feImage.setAttribute("href", mapUrl);
+        feImage.setAttribute("x", "0");
+        feImage.setAttribute("y", "0");
+        feImage.setAttribute("width", String(w));
+        feImage.setAttribute("height", String(h));
+        feImage.setAttribute("preserveAspectRatio", "none");
+        feImage.setAttribute("result", "map");
+        filter.appendChild(feImage);
+
+        appendDisplacementPass(filter, scale - chromaSpread, "red",
+          "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0");
+        appendDisplacementPass(filter, scale, "green",
+          "0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0");
+        appendDisplacementPass(filter, scale + chromaSpread, "blue",
+          "0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0");
+
+        const feBlend1 = document.createElementNS(SVG_NS, "feBlend");
+        feBlend1.setAttribute("in", "red");
+        feBlend1.setAttribute("in2", "green");
+        feBlend1.setAttribute("mode", "screen");
+        feBlend1.setAttribute("result", "rg");
+
+        const feBlend2 = document.createElementNS(SVG_NS, "feBlend");
+        feBlend2.setAttribute("in", "rg");
+        feBlend2.setAttribute("in2", "blue");
+        feBlend2.setAttribute("mode", "screen");
+
+        filter.appendChild(feBlend1);
+        filter.appendChild(feBlend2);
+        defs.appendChild(filter);
+
+        filterRegistry.set(filterKey, filterId);
+        return filterId;
+      }
+
+      function readRadius(el, w, h) {
+        const cs = getComputedStyle(el);
+        const parsed = parseFloat(cs.borderTopLeftRadius);
+        if (!parsed || parsed > 9000) return Math.min(w, h) / 2;
+        if (parsed >= Math.min(w, h) / 2 - 1) return Math.min(w, h) / 2;
+        return parsed;
+      }
+
+      function computeGlassRefraction(el) {
+        const w = Math.max(1, Math.round(el.offsetWidth));
+        const h = Math.max(1, Math.round(el.offsetHeight));
+        if (w < 4 || h < 4) return null;
+
+        const radius = readRadius(el, w, h);
+        const rim = parseFloat(el.dataset.glassRim) || Math.min(radius, Math.max(6, Math.min(w, h) * 0.28));
+        const scale = parseFloat(el.dataset.glassScale) || (Math.min(w, h) < 48 ? -32 : -46);
+        const chroma = parseFloat(el.dataset.glassChroma) || (Math.min(w, h) < 48 ? 7 : 8);
+
+        const mapUrl = generateSDFMapDataUrl(w, h, radius, rim);
+        const filterId = buildChromaticFilter(mapUrl, w, h, scale, chroma);
+        return `blur(2.5px) url(#${filterId}) saturate(185%) brightness(1.04)`;
+      }
+
+      function commitGlassRefraction(el, filterValue) {
+        const w = Math.max(1, Math.round(el.offsetWidth));
+        const h = Math.max(1, Math.round(el.offsetHeight));
+        el.dataset.glassSizeKey = `${w}x${h}`;
+        el.style.backdropFilter = filterValue;
+        el.style.webkitBackdropFilter = filterValue;
+        el.classList.add("is-refracting");
+      }
+
+      function observeGlassElements(root) {
+        const pending = [];
+        root.querySelectorAll(".glass-refract:not([data-glass-bound])").forEach((el) => {
+          el.dataset.glassBound = "1";
+          const filterValue = computeGlassRefraction(el);
+          if (filterValue) pending.push({ el, filterValue });
+          ro.observe(el);
+        });
+        for (const { el, filterValue } of pending) {
+          commitGlassRefraction(el, filterValue);
+        }
+      }
+
+      const ro = new ResizeObserver((entries) => {
+        const pending = [];
+        for (const entry of entries) {
+          const el = entry.target;
+          const w = Math.max(1, Math.round(el.offsetWidth));
+          const h = Math.max(1, Math.round(el.offsetHeight));
+          const sizeKey = `${w}x${h}`;
+          if (el.dataset.glassSizeKey === sizeKey) continue;
+          const filterValue = computeGlassRefraction(el);
+          if (filterValue) pending.push({ el, filterValue });
+        }
+        for (const { el, filterValue } of pending) {
+          commitGlassRefraction(el, filterValue);
+        }
+      });
+
+      function initGlass() {
+        observeGlassElements(document);
+      }
+
+      initGlass();
+    })();
   </script>
 
 </body>
