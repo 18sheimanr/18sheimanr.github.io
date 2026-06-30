@@ -6,7 +6,7 @@
 input → LLM → tool → LLM → tool → ... → output
 ```
 
-It's a deceptively simple pattern that unlocks real capability, but it's also annoyingly slow — I've watched Claude Code write something slower than I could have written it by hand. That's a tough tradeoff for voice interaction, but at Zocdoc we didn't have the luxury of avoiding it: scheduling procedures get too complex for a simple state-machine approach to handle. Here's how to keep latency in check. Most of this applies to text-based agents too.
+The simple pattern that unlocks real capability is also annoyingly slow — I've watched Claude Code write something slower than I could have written it by hand. That's a tough tradeoff for voice interaction, but some tasks are too complex for the simple state-machine approach. Here's how to keep latency in check. Most of this applies to text-based agents too.
 
 ---
 
