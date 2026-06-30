@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Keep a ReAct Agent's Response Time Under 5 Seconds — Robert Sheiman</title>
+  <meta name="description" content="Patterns for keeping agent latency in check when you can't avoid the ReAct loop — from tool design to observability.">
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">RS</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html#journey">Journey</a></li>
+        <li><a href="index.html" class="active">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="post-hero">
+    <div class="post-hero-inner">
+      <a href="index.html" class="post-back"><i class="fa-solid fa-arrow-left"></i> All posts</a>
+      <div class="post-meta">
+        <span class="post-meta-pill"><i class="fa-regular fa-calendar"></i> June 29, 2026</span>
+        <span class="post-meta-pill author"><i class="fa-regular fa-user"></i> Robert Sheiman</span>
+      </div>
+      <h1 class="post-title">How to Keep a ReAct Agent's Response Time Under 5 Seconds</h1>
+      <div class="post-tags">
+          <span class="post-tag">AI</span>
+          <span class="post-tag">Agents</span>
+          <span class="post-tag">Engineering</span>
+      </div>
+    </div>
+  </header>
+  <div class="post-body-wrap">
+    <article class="post-body">
+      <p>2025 was the year of agents: a loop that alternates between an LLM and tool calls until it produces a final output.</p>
+<pre><code>input → LLM → tool → LLM → tool → ... → output
+</code></pre>
+<p>It&#39;s a deceptively simple pattern that unlocks real capability, but it&#39;s also annoyingly slow — I&#39;ve watched Claude Code write something slower than I could have written it by hand. That&#39;s a tough tradeoff for voice interaction, but at Zocdoc we didn&#39;t have the luxury of avoiding it: scheduling procedures get too complex for a simple state-machine approach to handle. Here&#39;s how we keep latency in check. Most of this applies to text-based agents too.</p>
+<hr>
+<h2>1. Never force sequential tool calls</h2>
+<p>Patterns like <code>search_locations(&quot;Massachusetts&quot;)</code> → <code>get_location(&quot;Watertown Office&quot;)</code>, or <code>get_zip_code_from_name(&quot;Roxbury&quot;)</code> → <code>get_nearby_locations(&quot;02119&quot;)</code>, are an anti-pattern. If the agent needs both pieces of information to act, combine the tools. In practice, models hold up well to complex function signatures — we&#39;ve pushed up to 20 input arguments without issues.</p>
+<p>More importantly: don&#39;t make the agent fetch context it doesn&#39;t need to fetch. Before reaching for a <code>get_locations()</code> tool, ask how many locations there actually are. If the answer is ten, just put them in context directly instead of paying for a round trip.</p>
+<h2>2. Underspecified tasks cost you twice</h2>
+<p>Complex, poorly-defined tasks slow agents down on two levels. The obvious one is more output and thinking tokens. The less obvious one: we&#39;ve observed that even non-reasoning models slow down as task complexity increases, independent of output length.</p>
+<p>Here&#39;s a speculative explanation, offered for fun rather than as established fact (Take this with a grain of salt roughly the size of a GPU). With modern Mixture-of-Experts (MoE) models, every token is routed to different expert networks. The number of activated experts per token is typically fixed, but the routing pattern itself varies with the prompt — and that pattern affects serving efficiency: GPU communication overhead, expert load imbalance, and ultimately latency. Research on MoE serving, including <em>MoETuner</em>¹ and <em>HarMoEny</em>², backs up the general claim that routing and load balance materially affect inference performance.</p>
+<p>Two practical takeaways:</p>
+<ol>
+<li>Build an agent skill (or even a simple linting step) that scans the prompt and any other inference input for contradictions or ambiguity before it ever reaches the model.</li>
+<li>Where available, inspect internal thought signatures to see what the model is actually finding unclear.</li>
+</ol>
+<p>One caveat on the latter: with Gemini, exposed &quot;thought traces&quot; are LLM-generated <em>summaries</em> of the reasoning, not raw thought tokens, so generating them adds latency of its own.</p>
+<h2>3. Standard observability gets you halfway</h2>
+<p>If you&#39;re reading this, you already cache aggressively, minimize network cost, and you know that you can&#39;t optimize what you don&#39;t measure. You&#39;re probably also already tracking per-tool latency and LLM call latency. That&#39;s necessary, but it&#39;s not sufficient. A few things worth adding:</p>
+<ul>
+<li><strong>Input/output token length vs. latency.</strong> The correlation is inconsistent across models and providers — sometimes flat, sometimes not worth the analysis time. Check it once, don&#39;t assume it generalizes.</li>
+<li><strong>LLM latency specifically on tool calls</strong> — the time to reason about and populate a tool call. A spike here is often a sign that a particular tool&#39;s interface is confusing the model, not that the model itself is slow.</li>
+<li><strong>LLM latency distribution by time of day</strong>, with Slack alerts (or similar) for anomalies. This is your best signal for provider reliability. These models are enormous and hard to serve at scale — most providers have performance dips. Knowing the shape and frequency of those dips lets you decide how much engineering effort it&#39;s actually worth spending around them.</li>
+</ul>
+<hr>
+<p>¹ MoETuner: <a href="https://arxiv.org/abs/2502.06643">arxiv.org/abs/2502.06643</a>
+² HarMoEny: <a href="https://arxiv.org/abs/2506.12417">arxiv.org/abs/2506.12417</a></p>
+
+    </article>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 <a href="../index.html">Robert Sheiman</a></p>
+  </footer>
+
+  <script src="blog.js"></script>
+</body>
+</html>

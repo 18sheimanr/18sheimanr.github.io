@@ -1,0 +1,10 @@
+[
+  {
+    "slug": "react-agent-latency",
+    "title": "How to Keep a ReAct Agent's Response Time Under 5 Seconds",
+    "date": "2026-06-29",
+    "excerpt": "Patterns for keeping agent latency in check when you can't avoid the ReAct loop — from tool design to observability.",
+    "author": "Robert Sheiman",
+    "tags": ["AI", "Agents", "Engineering"]
+  }
+]

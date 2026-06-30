@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Robert Sheiman</title>
+  <meta name="description" content="Writing on software engineering, AI agents, and building products.">
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">RS</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html#journey">Journey</a></li>
+        <li><a href="index.html" class="active">Blog</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="blog-hero">
+    <div class="blog-hero-inner">
+      <p class="blog-hero-label">Writing</p>
+      <h1 class="blog-hero-title">Blog</h1>
+      <p class="blog-hero-desc">Notes on building software, AI agents, and the engineering behind healthcare products.</p>
+    </div>
+  </header>
+
+  <main class="blog-list" id="blog-list">
+        <a class="blog-card" href="react-agent-latency.html">
+          <div class="blog-tags"><span class="blog-tag">AI</span><span class="blog-tag">Agents</span><span class="blog-tag">Engineering</span></div>
+          <div class="blog-card-meta">
+            <span>June 29, 2026</span>
+            <span class="dot"></span>
+            <span>Robert Sheiman</span>
+          </div>
+          <h2 class="blog-card-title">How to Keep a ReAct Agent's Response Time Under 5 Seconds</h2>
+          <p class="blog-card-excerpt">Patterns for keeping agent latency in check when you can't avoid the ReAct loop — from tool design to observability.</p>
+          <span class="blog-card-read">Read article <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 <a href="../index.html">Robert Sheiman</a></p>
+  </footer>
+
+  <script src="blog.js"></script>
+</body>
+</html>

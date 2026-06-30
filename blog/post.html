@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting… — Robert Sheiman</title>
+  <script>
+    const slug = new URLSearchParams(location.search).get('p') || new URLSearchParams(location.search).get('slug');
+    if (slug) {
+      location.replace(slug + '.html');
+    } else {
+      location.replace('index.html');
+    }
+  </script>
+</head>
+<body>
+  <p><a href="index.html">Go to blog</a></p>
+</body>
+</html>
