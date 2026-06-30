@@ -1,0 +1,84 @@
+/* Liquid glass nav — kube.io convex bezel + backdrop-filter */
+
+nav {
+  display: contents;
+}
+
+.nav-glass {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 1000;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.nav-glass.liquid-glass--refract {
+  background: rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(4px) saturate(195%) brightness(1.03) url(#liquid-glass);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.nav-glass__specular {
+  position: absolute;
+  top: 0;
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4) 15%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.4) 85%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.nav-inner {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  width: 100%;
+  max-width: 1100px;
+  height: var(--nav-height);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .nav-glass {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .nav-glass__specular { display: none; }
+}
+
+@media (max-width: 768px) {
+  .nav-inner {
+    left: 0;
+    right: 0;
+    transform: none;
+    max-width: none;
+  }
+
+  .nav-links.open {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    z-index: 1001;
+  }
+}
