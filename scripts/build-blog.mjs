@@ -51,11 +51,15 @@ function renderPostPage(meta, bodyHtml) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../liquid-glass.css">
   <link rel="stylesheet" href="blog.css">
 </head>
 <body>
 
-  <nav>
+  <nav aria-label="Blog navigation">
+    <div class="nav-glass" aria-hidden="true">
+      <span class="nav-glass__specular" aria-hidden="true"></span>
+    </div>
     <div class="nav-inner">
       <a href="../index.html" class="nav-logo">RS</a>
       <button class="nav-toggle" aria-label="Toggle navigation">
@@ -92,6 +96,7 @@ function renderPostPage(meta, bodyHtml) {
     <p>&copy; 2026 <a href="../index.html">Robert Sheiman</a></p>
   </footer>
 
+  <script src="../liquid-glass.js"></script>
   <script src="blog.js"></script>
 </body>
 </html>

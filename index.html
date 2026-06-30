@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="liquid-glass.css">
 
   <style>
     :root {
@@ -44,30 +45,7 @@
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--nav-height);
-      background: rgba(255,255,255,0.82);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid var(--border);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .nav-inner {
-      width: 100%;
-      max-width: 1100px;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    /* ── NAV (layout — glass styles in liquid-glass.css) ── */
     .nav-logo {
       font-weight: 700;
       font-size: 1rem;
@@ -617,7 +595,7 @@
       .nav-toggle { display: flex; }
       .nav-links {
         display: none;
-        position: absolute;
+        position: fixed;
         top: var(--nav-height);
         left: 0;
         right: 0;
@@ -650,7 +628,10 @@
 <body>
 
   <!-- NAV -->
-  <nav>
+  <nav aria-label="Main navigation">
+    <div class="nav-glass" aria-hidden="true">
+      <span class="nav-glass__specular" aria-hidden="true"></span>
+    </div>
     <div class="nav-inner">
       <a href="#" class="nav-logo">RS</a>
       <button class="nav-toggle" aria-label="Toggle navigation">
@@ -949,6 +930,7 @@
     });
 
   </script>
+  <script src="liquid-glass.js"></script>
 
 </body>
 </html>

@@ -11,11 +11,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../liquid-glass.css">
   <link rel="stylesheet" href="blog.css">
 </head>
 <body>
 
-  <nav>
+  <nav aria-label="Blog navigation">
+    <div class="nav-glass" aria-hidden="true">
+      <span class="nav-glass__specular" aria-hidden="true"></span>
+    </div>
     <div class="nav-inner">
       <a href="../index.html" class="nav-logo">RS</a>
       <button class="nav-toggle" aria-label="Toggle navigation">
@@ -65,10 +69,10 @@
 </ol>
 <p>One caveat on the latter: with Gemini, exposed &quot;thought traces&quot; are LLM-generated <em>summaries</em> of the reasoning, not raw thought tokens, so generating them adds latency of its own.</p>
 <h2>3. Standard observability gets you halfway</h2>
-<p>If you&#39;re reading this, you already cache aggressively, minimize network cost, and you know that you can&#39;t optimize what you don&#39;t measure. You&#39;re probably also already tracking per-tool latency and LLM call latency. That&#39;s necessary, but it&#39;s not sufficient. A few things worth adding:</p>
+<p>If you&#39;re reading this, you already cache aggressively, minimize networking time, and you know that you can&#39;t optimize what you don&#39;t measure. You&#39;re probably also already tracking per-tool latency and LLM call latency. That&#39;s necessary, but it&#39;s not sufficient. A few things worth adding:</p>
 <ul>
-<li><strong>Input/output token length vs. latency.</strong> The correlation is inconsistent across models and providers — sometimes flat, sometimes not worth the analysis time. Check it once, don&#39;t assume it generalizes.</li>
-<li><strong>LLM latency specifically on tool calls</strong> — the time to reason about and populate a tool call. A spike here is often a sign that a particular tool&#39;s interface is confusing the model, not that the model itself is slow.</li>
+<li><strong>Input/output token length vs. latency.</strong> The correlation is inconsistent across models and providers. Maybe TTFT dominates for your inference calls, and therefore optimizing context length is a waste of precious time.</li>
+<li><strong>LLM latency specifically on tool calls</strong> — the time to reason about and populate a tool call. A spike here is often a sign that a particular tool&#39;s interface is confusing the model.</li>
 <li><strong>LLM latency distribution by time of day</strong>, with Slack alerts (or similar) for anomalies. This is your best signal for provider reliability. These models are enormous and hard to serve at scale — most providers have performance dips. Knowing the shape and frequency of those dips lets you decide how much engineering effort it&#39;s actually worth spending around them.</li>
 </ul>
 <hr>
@@ -82,6 +86,7 @@
     <p>&copy; 2026 <a href="../index.html">Robert Sheiman</a></p>
   </footer>
 
+  <script src="../liquid-glass.js"></script>
   <script src="blog.js"></script>
 </body>
 </html>

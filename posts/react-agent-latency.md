@@ -33,10 +33,10 @@ One caveat on the latter: with Gemini, exposed "thought traces" are LLM-generate
 
 ## 3. Standard observability gets you halfway
 
-If you're reading this, you already cache aggressively, minimize network cost, and you know that you can't optimize what you don't measure. You're probably also already tracking per-tool latency and LLM call latency. That's necessary, but it's not sufficient. A few things worth adding:
+If you're reading this, you already cache aggressively, minimize networking time, and you know that you can't optimize what you don't measure. You're probably also already tracking per-tool latency and LLM call latency. That's necessary, but it's not sufficient. A few things worth adding:
 
-- **Input/output token length vs. latency.** The correlation is inconsistent across models and providers — sometimes flat, sometimes not worth the analysis time. Check it once, don't assume it generalizes.
-- **LLM latency specifically on tool calls** — the time to reason about and populate a tool call. A spike here is often a sign that a particular tool's interface is confusing the model, not that the model itself is slow.
+- **Input/output token length vs. latency.** The correlation is inconsistent across models and providers. Maybe TTFT dominates for your inference calls, and therefore optimizing context length is a waste of precious time.
+- **LLM latency specifically on tool calls** — the time to reason about and populate a tool call. A spike here is often a sign that a particular tool's interface is confusing the model.
 - **LLM latency distribution by time of day**, with Slack alerts (or similar) for anomalies. This is your best signal for provider reliability. These models are enormous and hard to serve at scale — most providers have performance dips. Knowing the shape and frequency of those dips lets you decide how much engineering effort it's actually worth spending around them.
 
 ---
