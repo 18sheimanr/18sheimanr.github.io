@@ -6,7 +6,7 @@
 input → LLM → tool → LLM → tool → ... → output
 ```
 
-It's a deceptively simple pattern that unlocks real capability, but it's also annoyingly slow — I've watched Claude Code write something slower than I could have written it by hand. That's a tough tradeoff for voice interaction, but at Zocdoc we didn't have the luxury of avoiding it: scheduling procedures get too complex for a simple state-machine approach to handle. Here's how we keep latency in check. Most of this applies to text-based agents too.
+It's a deceptively simple pattern that unlocks real capability, but it's also annoyingly slow — I've watched Claude Code write something slower than I could have written it by hand. That's a tough tradeoff for voice interaction, but at Zocdoc we didn't have the luxury of avoiding it: scheduling procedures get too complex for a simple state-machine approach to handle. Here's how to keep latency in check. Most of this applies to text-based agents too.
 
 ---
 
@@ -18,9 +18,11 @@ More importantly: don't make the agent fetch context it doesn't need to fetch. B
 
 ## 2. Underspecified tasks cost you twice
 
-Complex, poorly-defined tasks slow agents down on two levels. The obvious one is more output and thinking tokens. The less obvious one: we've observed that even non-reasoning models slow down as task complexity increases, independent of output length.
+Complex, poorly-defined tasks slow agents down on two levels. The obvious one is more output and thinking tokens. The less obvious one: I've observed that even non-reasoning models slow down as task complexity increases, independent of output length. Temperature = 0 seems to exacerbate it.
 
-Here's a speculative explanation, offered for fun rather than as established fact (Take this with a grain of salt roughly the size of a GPU). With modern Mixture-of-Experts (MoE) models, every token is routed to different expert networks. The number of activated experts per token is typically fixed, but the routing pattern itself varies with the prompt — and that pattern affects serving efficiency: GPU communication overhead, expert load imbalance, and ultimately latency. Research on MoE serving, including *MoETuner*¹ and *HarMoEny*², backs up the general claim that routing and load balance materially affect inference performance.
+![Latency variance across task complexity trials](images/latency.png)
+
+Here's a speculative explanation, offered for fun rather than as established fact (Take this with a grain of salt roughly the size of a GPU). With modern Mixture-of-Experts (MoE) models, every token is routed to different expert networks. The number of activated experts per token is typically fixed, but the expert pattern varies token to token, and layer to layer while decoding — and that pattern affects serving efficiency since experts are sharded across GPUs: GPU link overhead, expert load imbalance, and ultimately latency. Research on MoE serving, including *MoETuner*¹ and *HarMoEny*², backs up the general claim that routing and load balance materially affect inference performance.
 
 Two practical takeaways:
 
